@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="110dp"
     android:orientation="vertical"
     tools:context="me.linus.gpstie.ActivityGPSRoleSelectDialog">
 
@@ -11,20 +11,22 @@
         android:id="@+id/gt_grs_gpssend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_gpssender_grey_500_36dp"
+            android:src="@drawable/ic_gpssender_grey_500_24dp"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPS senden/teilen"
-            android:textSize="36dp"/>
+            android:text="GPS senden/teilen" />
+
     </LinearLayout>
 
     <View
@@ -36,20 +38,21 @@
         android:id="@+id/gt_grs_gpsreceive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_gpsreceiver_grey_500_36dp"
+            android:src="@drawable/ic_gpsreceiver_grey_500_24dp"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPS empfangen"
-            android:textSize="36dp"/>
+            android:text="GPS empfangen" />
     </LinearLayout>
 
     <View

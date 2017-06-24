@@ -2,6 +2,6 @@
 <resources>
 
     <dimen name="category_title">18dp</dimen>
-    <dimen name="key_value_distance">5dp</dimen>
+    <dimen name="key_value_distance">10dp</dimen>
 
 </resources>

@@ -18,8 +18,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.gpssender.ActivityGPSSender" />
-        <activity android:name=".activity.gpsreceiver.ActivityGPSReceiver" />
+        <activity android:name=".activity.gpssender.ActivityGPSSender"
+            android:configChanges="screenSize|orientation" />
+        <activity android:name=".activity.gpsreceiver.ActivityGPSReceiver"
+            android:configChanges="screenSize|orientation"/>
 
     </application>
 
@@ -31,5 +33,8 @@
 
     <!-- Get local IP -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Get GPS Position (on newer devices, it gets asked); only needed by the GPSSender -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

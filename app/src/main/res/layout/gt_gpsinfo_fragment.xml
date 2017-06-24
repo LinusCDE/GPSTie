@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- GPS status content -->
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Latitude -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Latitude:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Longitude -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Longitude:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Accuracy -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accuracy:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_accuracy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Altitude -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Altitude:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_altitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Bearing -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bearing:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_bearing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Speed -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Provider -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Provider:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- ElapsedRealtimeNanos -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ElapsedRealtimeNanos:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_elapsed_realtime_nanos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Time -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsdata_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

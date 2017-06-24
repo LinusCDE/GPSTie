@@ -34,14 +34,21 @@ open class MyActivityBase : AppCompatActivity() {
 
         when(item?.itemId) {
             R.id.menu_reassign -> {
-                val newIntent = Intent(this, ActivityGPSRoleSelectDialog::class.java)
-                newIntent.putExtra("resetDefSelection", true)
-                startActivity(newIntent)
-                finish()
+                returnToMainActivity()
             }
             else -> return false
         }
         return true
+    }
+
+    /**
+     * Returns to GPSRoleSelectDialog and removes the "Do not ask again"-Tick
+     */
+    fun returnToMainActivity() {
+        val newIntent = Intent(this, ActivityGPSRoleSelectDialog::class.java)
+        newIntent.putExtra("resetDefSelection", true)
+        startActivity(newIntent)
+        finish()
     }
 
 }
