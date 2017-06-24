@@ -5,10 +5,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import me.linus.gpstie.MyDefaultMenuActivity
+import me.linus.gpstie.MyActivityBase
 import me.linus.gpstie.R
 
-class ActivityGPSReceiver: MyDefaultMenuActivity() {
+class ActivityGPSReceiver: MyActivityBase() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
