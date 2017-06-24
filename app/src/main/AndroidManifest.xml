@@ -21,16 +21,6 @@
         <activity android:name=".activity.gpssender.ActivityGPSSender" />
         <activity android:name=".activity.gpsreceiver.ActivityGPSReceiver" />
 
-        <!-- Stolen from Google ;) -->
-        <activity
-            android:name=".activity.btdevicelist.DeviceListActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/select_device"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
-
     </application>
-
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
 </manifest>
