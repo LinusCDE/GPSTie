@@ -29,7 +29,7 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
         setContentView(R.layout.gt_gpsroleselect_layout_dialog)
 
         // Open Prefs
-        prefs = getSharedPreferences("mainPrefs", Context.MODE_PRIVATE)
+        prefs = getPreferences(Context.MODE_PRIVATE)
 
         // Get UI-Elements
         uiReceiverBtn = findViewById(R.id.gt_grs_gpsreceive) as LinearLayout
@@ -47,17 +47,19 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
             prefs.edit().run { remove("defSelection") }.apply() // Removes 'defSelection'-Key
 
         // Check for saved value
-        if(prefs.contains("defSelection"))
-            when(prefs.getInt("defSelection", 0)) {
+        if(prefs.contains("defSelection")) {
+            println("Status: " + prefs.getInt("defSelection", -1))
+            when (prefs.getInt("defSelection", 0)) {
                 SELECTION_GPS_RECEIVER -> selectGpsReceiver()
                 SELECTION_GPS_SENDER -> selectGpsSender()
             }
+        }
     }
 
     fun selectGpsReceiver() {
         // Set default value if needed
-        if(uiDontAskAgainCb.isSelected)
-            prefs.edit().run { putInt("defSelection", SELECTION_GPS_RECEIVER )}.apply()
+        if(uiDontAskAgainCb.isChecked)
+            prefs.edit().apply { putInt("defSelection", SELECTION_GPS_RECEIVER )}.apply()
 
         // Start new activity
         startActivity(Intent(this, ActivityGPSReceiver::class.java))
@@ -67,8 +69,8 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
 
     fun selectGpsSender() {
         // Set default value if needed
-        if(uiDontAskAgainCb.isSelected)
-            prefs.edit().run { putInt("defSelection", SELECTION_GPS_SENDER )}.apply()
+        if(uiDontAskAgainCb.isChecked)
+            prefs.edit().apply { putInt("defSelection", SELECTION_GPS_SENDER )}.apply()
 
         // Start new activity
         startActivity(Intent(this, ActivityGPSSender::class.java))
