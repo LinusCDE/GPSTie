@@ -47,9 +47,31 @@ class ActivityGPSSender: MyActivityBase() {
     lateinit var gpsLocationReceiver: LocationReceiver
     // ------------------------
 
+    var locationService: LocationManager? = null
+    lateinit var locationListener: LocationListener
+
     lateinit var server: GTServer
 
     var lastGpsState: Int = GPS_STATE_DONT_SEND
+
+    var gpsEnabled: Boolean = false
+        @SuppressLint("MissingPermission")
+        set(value) {
+            if(value == field) return
+            when(value) {
+                true -> {
+                    locationService?.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER, 0L, 0F, locationListener)
+                }
+                false -> {
+                    locationService?.removeUpdates(locationListener)
+                    gpsLocationReceiver.resetLocation()
+                    gpsLocationReceiver.resetStatus()
+                    lastGpsState = GPS_STATE_DONT_SEND
+                }
+            }
+            field = value
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +98,6 @@ class ActivityGPSSender: MyActivityBase() {
      * Gets called when ensured to have gps permission
      * Here the UI should be set up
      */
-    @SuppressLint("MissingPermission")
     fun setupUi() {
         // Display Ip-Address:
         val refreshIp = {
@@ -101,11 +122,11 @@ class ActivityGPSSender: MyActivityBase() {
 
         // GPS:
         // Source: https://developer.android.com/guide/topics/location/strategies.html#Updates
-        val locationService = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        locationService = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         val context = this
 
-        val locationListener = object: LocationListener {
+        locationListener = object: LocationListener {
 
             override fun onProviderDisabled(provider: String?) {
                 if (provider == null || !provider.contains("gps")) return
@@ -151,8 +172,6 @@ class ActivityGPSSender: MyActivityBase() {
 
         }
 
-        locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, locationListener)
-
         // Create and load GPS-Data fragment
         gpsLocationReceiver = GPSInfoDetailsFragment()
         loadFragment(gpsLocationReceiver as Fragment)
@@ -171,12 +190,19 @@ class ActivityGPSSender: MyActivityBase() {
             override fun onServerStopped() =
                     runOnUiThread {
                         uiServerStartStop.isChecked = false
-                        wakeLock.release()
+                        try { wakeLock.release() }catch (e: Exception) { }
                     }
 
             override fun onClientConnected(clientConnection: GTConnection, server: GTServer) {
                 if(lastGpsState != GPS_STATE_DONT_SEND)
                     server.updateStatus(lastGpsState, singleReceiver = clientConnection)
+                if(server.getClients().size > 0 && !gpsEnabled)
+                    runOnUiThread { gpsEnabled = true } // Fails if not done in UI-Thread
+            }
+
+            override fun onClientDisonnected(clientConnection: GTConnection, server: GTServer) {
+                if(server.getClients().size == 0 && gpsEnabled)
+                    runOnUiThread { gpsEnabled = false } // Fails if not done in UI-Thread
             }
         })
 

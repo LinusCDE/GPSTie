@@ -13,6 +13,7 @@ class GTServer(val serverListener: GTServerListener) {
         fun onServerStarted()
         fun onServerStopped()
         fun onClientConnected(clientConnection: GTConnection, server: GTServer)
+        fun onClientDisonnected(clientConnection: GTConnection, server: GTServer)
     }
 
     companion object {
@@ -49,6 +50,8 @@ class GTServer(val serverListener: GTServerListener) {
                 }
 
             }catch(e: Exception){
+                stop()
+                e.printStackTrace()
                 serverListener.onServerStatusChanged("Server stopped.")
             }
         }.apply { name = "GpsTie-ServerThread" }.also { it.start() }

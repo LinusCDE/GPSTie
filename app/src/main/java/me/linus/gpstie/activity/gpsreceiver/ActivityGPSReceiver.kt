@@ -68,6 +68,7 @@ class ActivityGPSReceiver: MyActivityBase() {
                     runOnUiThread {
                         uiConnectDisconnect.isChecked = true
                         mockProvider?.setEnabled(true)
+                        wakeLock.acquire()
                     }
 
             override fun onClientDisconnected() =
@@ -77,6 +78,12 @@ class ActivityGPSReceiver: MyActivityBase() {
                         gpsLocationReceiver?.resetLocation()
                         gpsLocationReceiver?.resetStatus()
                         mockProvider?.setEnabled(false)
+                        try {
+                            wakeLock.release()
+                        }catch (e: Exception) {
+                            // Occurs when connection failed
+                            // So die WakeLock got never acquired but was released
+                        }
                     }
 
             override fun onClientStatusChanged(status: String) =

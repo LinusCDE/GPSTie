@@ -32,6 +32,7 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
     fun disconnect() {
         gtServer.connectedClients.remove(this)
         gtServer.updateClientCount()
+        gtServer.serverListener.onClientDisonnected(this, gtServer)
         try { clientInputThread.stop() }catch(e: Exception) { }
         try { client.close() }catch(e: Exception) { }
     }
