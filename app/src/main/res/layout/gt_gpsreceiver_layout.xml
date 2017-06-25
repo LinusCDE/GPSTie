@@ -1,13 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<ScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:text="Button" />
-</RelativeLayout>
+        <!-- ====================================== -->
+        <!-- Connection status -->
+        <!-- ====================================== -->
+
+        <!-- Server status title -->
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Verbinden:"
+            android:textSize="@dimen/category_title"/>
+
+        <!-- Soft divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerSoft" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Server-Adresse:" />
+
+        <!-- Start/Stop Server -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/gt_gr_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_weight="1"/>
+
+            <ToggleButton
+                android:id="@+id/gt_gr_connect_disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="Verbinden"
+                android:textOn="Trennen"/>
+
+        </LinearLayout>
+
+        <!-- Additional Server content -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Client status -->
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status:"
+                    android:layout_marginRight="@dimen/key_value_distance"/>
+
+                <TextView
+                    android:id="@+id/gt_gr_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_value"/>
+
+            </TableRow>
+
+        </TableLayout>
+
+        <!-- ====================================== -->
+        <!-- GPS status -->
+        <!-- ====================================== -->
+
+        <!-- hard divider -->
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dividerHard" />
+
+        <!-- GPS status title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPS-Status:"
+            android:textSize="@dimen/category_title"/>
+
+        <!-- soft divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dividerSoft" />
+
+        <FrameLayout
+            android:id="@+id/gt_gr_gps_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</ScrollView>

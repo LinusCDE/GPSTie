@@ -1,12 +1,12 @@
 package me.linus.gpstie.fragment
 
-import android.location.Location
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import me.linus.gpstie.GpsLocation
 import me.linus.gpstie.R
 
 class GPSDataFragment: Fragment() {
@@ -43,19 +43,35 @@ class GPSDataFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    fun updateLocation(location: Location) =
-        activity.runOnUiThread {
-            var none = resources.getString(R.string.no_value)
+    fun updateLocation(location: GpsLocation) =
+            activity.runOnUiThread {
 
-            uiGpsLatitude.text = "${location.latitude}"
-            uiGpsLongitude.text = "${location.longitude}"
-            uiGpsAccuracy.text = "\u00B1${if(location.hasAccuracy()) "${location.accuracy}" else none}m"
-            uiGpsAltitude.text = "${if(location.hasAltitude()) "${location.altitude}" else none}"
-            uiGpsBearing.text = "${if(location.hasBearing()) "${location.bearing}" else none}"
-            uiGpsSpeed.text = "${if(location.hasSpeed()) "${location.speed}" else none}m/s"
-            uiGpsProvider.text = "${location.provider}"
-            uiGpsElaspedRealtimeMillis.text = "${location.elapsedRealtimeNanos}"
-            uiGpsTime.text = "${location.time}"
-        }
+                val none = resources.getString(R.string.no_value)
+
+                uiGpsLatitude.text = "${location.latitude}"
+                uiGpsLongitude.text = "${location.longitude}"
+                uiGpsAccuracy.text = "\u00B1${if(location.hasAccuracy) "${location.accuracy}" else none}m"
+                uiGpsAltitude.text = if(location.hasAltitude) "${location.altitude}" else none
+                uiGpsBearing.text = if(location.hasBearing) "${location.bearing}" else none
+                uiGpsSpeed.text = "${if(location.hasSpeed) "${location.speed}" else none}m/s"
+                uiGpsProvider.text = location.provider
+                uiGpsElaspedRealtimeMillis.text = "${location.elapsedRealtimeNanos}"
+                uiGpsTime.text = "${location.time}"
+            }
+
+    fun resetLocation() =
+            activity.runOnUiThread {
+                val none = resources.getString(R.string.no_value)
+
+                uiGpsLatitude.text = none
+                uiGpsLongitude.text = none
+                uiGpsAccuracy.text = none
+                uiGpsAltitude.text = none
+                uiGpsBearing.text = none
+                uiGpsSpeed.text = none
+                uiGpsProvider.text = none
+                uiGpsElaspedRealtimeMillis.text = none
+                uiGpsTime.text = none
+            }
 
 }

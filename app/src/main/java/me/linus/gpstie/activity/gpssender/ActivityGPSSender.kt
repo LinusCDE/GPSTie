@@ -16,11 +16,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.Fragment
-import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
 import me.linus.gpstie.MyActivityBase
+import me.linus.gpstie.GpsLocation
 import me.linus.gpstie.R
 import me.linus.gpstie.fragment.GPSDataFragment
 import java.net.NetworkInterface
@@ -115,6 +115,8 @@ class ActivityGPSSender: MyActivityBase() {
                 })
 
                 dialogBuilder.show()
+
+                gpsDataFragment.resetLocation()
             }
 
             override fun onProviderEnabled(provider: String?) = Unit
@@ -123,7 +125,7 @@ class ActivityGPSSender: MyActivityBase() {
             override fun onLocationChanged(location: Location?) {
                 if(location == null) return
 
-                gpsDataFragment.updateLocation(location)
+                gpsDataFragment.updateLocation(GpsLocation.fromLocation(location))
                 server.updateLocation(location)
             }
 

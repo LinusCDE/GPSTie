@@ -29,8 +29,8 @@
             android:id="@+id/gt_gs_server_start_stop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textOn="Server läuft"
-            android:textOff="Server gestoppt"/>
+            android:textOff="Server starten"
+            android:textOn="Server stoppen"/>
 
         <!-- Additional Server content -->
         <TableLayout
@@ -54,7 +54,7 @@
 
             </TableRow>
 
-            <!-- Client count -->
+            <!-- Server status -->
             <TableRow>
 
                 <TextView

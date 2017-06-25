@@ -59,7 +59,7 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
     fun selectGpsReceiver() {
         // Set default value if needed
         if(uiDontAskAgainCb.isChecked)
-            prefs.edit().apply { putInt("defSelection", SELECTION_GPS_RECEIVER )}.apply()
+            prefs.edit().apply { putInt("defSelection", SELECTION_GPS_RECEIVER) }.apply()
 
         // Start new activity
         startActivity(Intent(this, ActivityGPSReceiver::class.java))
@@ -70,7 +70,7 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
     fun selectGpsSender() {
         // Set default value if needed
         if(uiDontAskAgainCb.isChecked)
-            prefs.edit().apply { putInt("defSelection", SELECTION_GPS_SENDER )}.apply()
+            prefs.edit().apply { putInt("defSelection", SELECTION_GPS_SENDER) }.apply()
 
         // Start new activity
         startActivity(Intent(this, ActivityGPSSender::class.java))

@@ -17,50 +17,9 @@ class GTServer(val serverListener: GTServerListener) {
         fun onServerStopped()
     }
 
-    class GTConnection(val gtServer: GTServer, val client: Socket) {
-
-        val writer = BufferedWriter(OutputStreamWriter(client.getOutputStream(), "UTF-8"))
-        val clientInputThread: Thread
-
-        init {
-            client.soTimeout = 30000 // = Timeout of 30 seconds
-
-            clientInputThread = Thread {
-                try {
-                    val inStream = client.getInputStream()
-
-                    val buffer = ByteArray(24)
-                    while (inStream.read(buffer) > 0) {
-                        Thread.sleep(1)
-                    }
-
-                    disconnect()
-                }catch(e: Exception) {
-                    disconnect()
-                }
-            }.apply { name = "GpsTie-Server-ClientInputThread" } .also { it.start() }
-        }
-
-        fun disconnect() {
-            gtServer.connectedClients.remove(this)
-            gtServer.updateClientCount()
-            try { clientInputThread.stop() }catch(e: Exception) { }
-            try { client.close() }catch(e: Exception) { }
-        }
-
-        fun send(message: String) {
-            try {
-                writer.write(message)
-                writer.newLine()
-                writer.flush()
-            }catch (e: Exception) {
-                disconnect()
-            }
-        }
-
+    companion object {
+        val SERVER_PORT = 46832
     }
-
-    companion object val SERVER_PORT = 46832
 
     var serverThread: Thread? = null
     var serverSocket: ServerSocket? = null
@@ -72,14 +31,15 @@ class GTServer(val serverListener: GTServerListener) {
         serverThread = Thread {
 
             try {
-                serverListener?.onStatusChanged("Starting...")
+                serverListener.onStatusChanged("Starting...")
 
                 serverSocket = ServerSocket(SERVER_PORT)
 
-                serverListener?.onStatusChanged("Running. Waiting for clients...")
+                serverListener.onStatusChanged("Running. Waiting for clients...")
+                serverListener.onServerStarted()
 
                 while (true) {
-                    val socket = serverSocket?.accept()
+                    val socket = serverSocket!!.accept()
                     if (socket == null) {
                         serverSocket?.close()
                         return@Thread
@@ -89,9 +49,8 @@ class GTServer(val serverListener: GTServerListener) {
                     updateClientCount()
                 }
 
-                serverSocket?.close()
             }catch(e: Exception){
-                serverListener?.onStatusChanged("Server stopped.")
+                serverListener.onStatusChanged("Server stopped.")
             }
         }.apply { name = "GpsTie-ServerThread" }.also { it.start() }
     }
@@ -101,7 +60,7 @@ class GTServer(val serverListener: GTServerListener) {
     && serverSocket != null && !serverSocket!!.isClosed
 
     fun stop() {
-        serverListener?.onStatusChanged("Stopping Server...")
+        serverListener.onStatusChanged("Stopping Server...")
         for(connection in getClients())
             connection.disconnect()
         serverSocket?.close()
@@ -110,7 +69,8 @@ class GTServer(val serverListener: GTServerListener) {
                 serverThread?.stop()
         }catch(e: Exception) { }
         connectedClients.clear()
-        serverListener?.onStatusChanged("Server stopped.")
+        serverListener.onStatusChanged("Server stopped.")
+        serverListener.onServerStopped()
     }
 
     fun updateLocation(location: Location) {
@@ -137,7 +97,7 @@ class GTServer(val serverListener: GTServerListener) {
     }
 
     fun updateClientCount() =
-            serverListener?.onStatusChanged("Running. ${connectedClients.size} " +
+            serverListener.onStatusChanged("Running. ${connectedClients.size} " +
                     "Client(s) connected")
 
 
