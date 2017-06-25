@@ -6,11 +6,23 @@ import org.json.JSONObject
 /**
  * Data to display in GPSDataFragment
  */
-data class GpsLocation(val latitude: Double, val longitude: Double, val accuracy: Float,
-                       val altitude: Double, val bearing: Float, val speed: Float,
-                       val provider: String, val elapsedRealtimeNanos: Long, val time: Long,
+class GpsLocation(latitude: Double, longitude: Double, accuracy: Float,
+                       altitude: Double, bearing: Float, speed: Float,
+                       provider: String, elapsedRealtimeNanos: Long, time: Long,
                        val hasAccuracy: Boolean, val hasAltitude: Boolean,
-                       val hasBearing: Boolean, val hasSpeed: Boolean){
+                       val hasBearing: Boolean, val hasSpeed: Boolean): Location(provider) {
+
+    init {
+        super.setLatitude(latitude)
+        super.setLongitude(longitude)
+        super.setAccuracy(accuracy)
+        super.setAltitude(altitude)
+        super.setBearing(bearing)
+        super.setSpeed(speed)
+        super.setProvider(provider)
+        super.setElapsedRealtimeNanos(elapsedRealtimeNanos)
+        super.setTime(time)
+    }
 
     companion object {
         fun fromLocation(loc: Location): GpsLocation =

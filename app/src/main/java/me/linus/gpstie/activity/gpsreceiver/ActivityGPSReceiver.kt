@@ -24,6 +24,8 @@ class ActivityGPSReceiver: MyActivityBase() {
 
     lateinit var prefs: SharedPreferences
 
+    lateinit var mockProvider: MockProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -63,6 +65,7 @@ class ActivityGPSReceiver: MyActivityBase() {
             override fun onClientConnected() =
                     runOnUiThread {
                         uiConnectDisconnect.isChecked = true
+                        mockProvider.setEnabled(true)
                     }
 
             override fun onClientDisconnected() =
@@ -70,17 +73,27 @@ class ActivityGPSReceiver: MyActivityBase() {
                         uiAddress.isEnabled = true
                         uiConnectDisconnect.isChecked = false
                         gpsDataFragment.resetLocation()
+                        mockProvider.setEnabled(false)
                     }
 
             override fun onStatusChanged(status: String) =
                     runOnUiThread { uiStatus.text = status }
 
             override fun onLocationReceived(location: GpsLocation) =
-                    runOnUiThread { gpsDataFragment.updateLocation(location) }
+                    runOnUiThread {
+                        gpsDataFragment.updateLocation(location)
+                        mockProvider.updateLocation(location)
+                    }
 
         }
 
         client = GTClient(clientListener)
+
+        try {
+            mockProvider = MockProvider("tiedGps", this)
+        }catch (e: Exception) {
+            finish()
+        }
     }
 
     fun loadFragment(fragment: Fragment) {
@@ -88,6 +101,15 @@ class ActivityGPSReceiver: MyActivityBase() {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.gt_gr_gps_data, fragment)
         fragmentTransaction.commit()
+    }
+
+    override fun onDestroy() {
+        if(mockProvider != null) {
+            mockProvider.setEnabled(false)
+            mockProvider.remove()
+        }
+
+        super.onDestroy()
     }
 
 }
