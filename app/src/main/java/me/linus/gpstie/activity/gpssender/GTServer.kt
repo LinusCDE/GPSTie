@@ -3,18 +3,16 @@ package me.linus.gpstie.activity.gpssender
 import android.location.Location
 import android.util.Base64
 import org.json.JSONObject
-import java.io.BufferedWriter
-import java.io.OutputStreamWriter
 import java.net.ServerSocket
-import java.net.Socket
 import java.nio.charset.Charset
 
 class GTServer(val serverListener: GTServerListener) {
 
     interface GTServerListener {
-        fun onStatusChanged(status: String)
+        fun onServerStatusChanged(status: String)
         fun onServerStarted()
         fun onServerStopped()
+        fun onClientConnected(clientConnection: GTConnection, server: GTServer)
     }
 
     companion object {
@@ -31,11 +29,11 @@ class GTServer(val serverListener: GTServerListener) {
         serverThread = Thread {
 
             try {
-                serverListener.onStatusChanged("Starting...")
+                serverListener.onServerStatusChanged("Starting...")
 
                 serverSocket = ServerSocket(SERVER_PORT)
 
-                serverListener.onStatusChanged("Running. Waiting for clients...")
+                serverListener.onServerStatusChanged("Running. Waiting for clients...")
                 serverListener.onServerStarted()
 
                 while (true) {
@@ -44,13 +42,14 @@ class GTServer(val serverListener: GTServerListener) {
                         serverSocket?.close()
                         return@Thread
                     }
-                    connectedClients.add(GTConnection(this, socket))
-
+                    val connection = GTConnection(this, socket)
+                    connectedClients.add(connection)
                     updateClientCount()
+                    serverListener.onClientConnected(connection, this)
                 }
 
             }catch(e: Exception){
-                serverListener.onStatusChanged("Server stopped.")
+                serverListener.onServerStatusChanged("Server stopped.")
             }
         }.apply { name = "GpsTie-ServerThread" }.also { it.start() }
     }
@@ -60,7 +59,7 @@ class GTServer(val serverListener: GTServerListener) {
     && serverSocket != null && !serverSocket!!.isClosed
 
     fun stop() {
-        serverListener.onStatusChanged("Stopping Server...")
+        serverListener.onServerStatusChanged("Stopping Server...")
         for(connection in getClients())
             connection.disconnect()
         serverSocket?.close()
@@ -69,12 +68,13 @@ class GTServer(val serverListener: GTServerListener) {
                 serverThread?.stop()
         }catch(e: Exception) { }
         connectedClients.clear()
-        serverListener.onStatusChanged("Server stopped.")
+        serverListener.onServerStatusChanged("Server stopped.")
         serverListener.onServerStopped()
     }
 
-    fun updateLocation(location: Location) {
+    fun updateLocation(location: Location, singleReceiver: GTConnection? = null) {
         val jsonObj = JSONObject()
+        jsonObj.put("type", "location") // Packet type
         jsonObj.put("latitude", location.latitude)
         jsonObj.put("longitude", location.longitude)
         jsonObj.put("accuracy", location.accuracy)
@@ -91,13 +91,29 @@ class GTServer(val serverListener: GTServerListener) {
 
         val packetLine = Base64.encodeToString(
                 jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
-        for(connection in getClients()) {
-            connection.send(packetLine)
-        }
+
+        if(singleReceiver != null)
+            singleReceiver.send(packetLine)
+        else
+            getClients().forEach { it.send(packetLine) }    }
+
+    fun updateStatus(status: Int, singleReceiver: GTConnection? = null) {
+        val jsonObj = JSONObject()
+        jsonObj.put("type", "status") // Packet type
+        jsonObj.put("status", status)
+        jsonObj.put("time", System.currentTimeMillis())
+
+        val packetLine = Base64.encodeToString(
+                jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
+
+        if(singleReceiver != null)
+            singleReceiver.send(packetLine)
+        else
+            getClients().forEach { it.send(packetLine) }
     }
 
     fun updateClientCount() =
-            serverListener.onStatusChanged("Running. ${connectedClients.size} " +
+            serverListener.onServerStatusChanged("Running. ${connectedClients.size} " +
                     "Client(s) connected")
 
 

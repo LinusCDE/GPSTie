@@ -2,6 +2,7 @@ package me.linus.gpstie.activity.gpsreceiver
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.widget.EditText
@@ -10,7 +11,8 @@ import android.widget.ToggleButton
 import me.linus.gpstie.GpsLocation
 import me.linus.gpstie.MyActivityBase
 import me.linus.gpstie.R
-import me.linus.gpstie.fragment.GPSDataFragment
+import me.linus.gpstie.LocationReceiver
+import me.linus.gpstie.fragment.GPSInfoDetailsFragment
 
 class ActivityGPSReceiver: MyActivityBase() {
 
@@ -18,13 +20,13 @@ class ActivityGPSReceiver: MyActivityBase() {
     lateinit var uiConnectDisconnect: ToggleButton
     lateinit var uiStatus: TextView
 
-    lateinit var gpsDataFragment: GPSDataFragment
+    var gpsLocationReceiver: LocationReceiver? = null
 
     lateinit var client: GTClient
 
     lateinit var prefs: SharedPreferences
 
-    lateinit var mockProvider: MockProvider
+    var mockProvider: MockProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +52,8 @@ class ActivityGPSReceiver: MyActivityBase() {
 
         }
 
-        gpsDataFragment = GPSDataFragment()
-        loadFragment(gpsDataFragment)
+        gpsLocationReceiver = GPSInfoDetailsFragment()
+        loadFragment(gpsLocationReceiver as Fragment)
 
         val clientListener = object: GTClient.GTClientListener {
 
@@ -65,24 +67,31 @@ class ActivityGPSReceiver: MyActivityBase() {
             override fun onClientConnected() =
                     runOnUiThread {
                         uiConnectDisconnect.isChecked = true
-                        mockProvider.setEnabled(true)
+                        mockProvider?.setEnabled(true)
                     }
 
             override fun onClientDisconnected() =
                     runOnUiThread {
                         uiAddress.isEnabled = true
                         uiConnectDisconnect.isChecked = false
-                        gpsDataFragment.resetLocation()
-                        mockProvider.setEnabled(false)
+                        gpsLocationReceiver?.resetLocation()
+                        gpsLocationReceiver?.resetStatus()
+                        mockProvider?.setEnabled(false)
                     }
 
-            override fun onStatusChanged(status: String) =
+            override fun onClientStatusChanged(status: String) =
                     runOnUiThread { uiStatus.text = status }
 
             override fun onLocationReceived(location: GpsLocation) =
                     runOnUiThread {
-                        gpsDataFragment.updateLocation(location)
-                        mockProvider.updateLocation(location)
+                        gpsLocationReceiver?.updateLocation(location)
+                        mockProvider?.updateLocation(location)
+                    }
+
+            override fun onGpsStatusChanged(status: Int, time: Long) =
+                    runOnUiThread {
+                        mockProvider?.updateStatus(status, time)
+                        gpsLocationReceiver?.updateStatus(status)
                     }
 
         }
@@ -90,9 +99,9 @@ class ActivityGPSReceiver: MyActivityBase() {
         client = GTClient(clientListener)
 
         try {
-            mockProvider = MockProvider("tiedGps", this)
+            mockProvider = MockProvider(LocationManager.GPS_PROVIDER, this)
         }catch (e: Exception) {
-            finish()
+            e.printStackTrace()
         }
     }
 
@@ -105,8 +114,8 @@ class ActivityGPSReceiver: MyActivityBase() {
 
     override fun onDestroy() {
         if(mockProvider != null) {
-            mockProvider.setEnabled(false)
-            mockProvider.remove()
+            mockProvider?.setEnabled(false)
+            mockProvider?.remove()
         }
 
         super.onDestroy()

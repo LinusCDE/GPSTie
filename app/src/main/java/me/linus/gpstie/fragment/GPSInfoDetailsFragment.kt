@@ -1,5 +1,6 @@
 package me.linus.gpstie.fragment
 
+import android.location.LocationProvider
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import me.linus.gpstie.GpsLocation
+import me.linus.gpstie.LocationReceiver
 import me.linus.gpstie.R
 
-class GPSDataFragment: Fragment() {
+class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
 
     lateinit var uiGpsLatitude: TextView
     lateinit var uiGpsLongitude: TextView
@@ -20,30 +22,28 @@ class GPSDataFragment: Fragment() {
     lateinit var uiGpsProvider: TextView
     lateinit var uiGpsElaspedRealtimeMillis: TextView
     lateinit var uiGpsTime: TextView
+    lateinit var uiGpsStatus: TextView
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if(inflater == null) return null
 
-        val fragView = inflater.inflate(R.layout.gt_gpsinfo_fragment, container, false)
+        val fragView = inflater.inflate(R.layout.gt_gpsinfo_frag_details, container, false)
 
-        uiGpsLatitude = fragView.findViewById(R.id.gt_gpsdata_latitude) as TextView
-        uiGpsLongitude = fragView.findViewById(R.id.gt_gpsdata_longitude) as TextView
-        uiGpsAccuracy = fragView.findViewById(R.id.gt_gpsdata_accuracy) as TextView
-        uiGpsAltitude = fragView.findViewById(R.id.gt_gpsdata_altitude) as TextView
-        uiGpsBearing = fragView.findViewById(R.id.gt_gpsdata_bearing) as TextView
-        uiGpsSpeed = fragView.findViewById(R.id.gt_gpsdata_speed) as TextView
-        uiGpsProvider = fragView.findViewById(R.id.gt_gpsdata_provider) as TextView
-        uiGpsElaspedRealtimeMillis = fragView.findViewById(R.id.gt_gpsdata_elapsed_realtime_nanos) as TextView
-        uiGpsTime = fragView.findViewById(R.id.gt_gpsdata_time) as TextView
+        uiGpsLatitude = fragView.findViewById(R.id.gt_gpsinfo_details_latitude) as TextView
+        uiGpsLongitude = fragView.findViewById(R.id.gt_gpsinfo_details_longitude) as TextView
+        uiGpsAccuracy = fragView.findViewById(R.id.gt_gpsinfo_details_accuracy) as TextView
+        uiGpsAltitude = fragView.findViewById(R.id.gt_gpsinfo_details_altitude) as TextView
+        uiGpsBearing = fragView.findViewById(R.id.gt_gpsinfo_details_bearing) as TextView
+        uiGpsSpeed = fragView.findViewById(R.id.gt_gpsinfo_details_speed) as TextView
+        uiGpsProvider = fragView.findViewById(R.id.gt_gpsinfo_details_provider) as TextView
+        uiGpsElaspedRealtimeMillis = fragView.findViewById(R.id.gt_gpsinfo_details_elapsed_realtime_nanos) as TextView
+        uiGpsTime = fragView.findViewById(R.id.gt_gpsinfo_details_time) as TextView
+        uiGpsStatus = fragView.findViewById(R.id.gt_gpsinfo_details_status) as TextView
 
         return fragView
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    fun updateLocation(location: GpsLocation) =
+    override fun updateLocation(location: GpsLocation) =
             activity.runOnUiThread {
 
                 val none = resources.getString(R.string.no_value)
@@ -59,7 +59,7 @@ class GPSDataFragment: Fragment() {
                 uiGpsTime.text = "${location.time}"
             }
 
-    fun resetLocation() =
+    override fun resetLocation() =
             activity.runOnUiThread {
                 val none = resources.getString(R.string.no_value)
 
@@ -73,5 +73,18 @@ class GPSDataFragment: Fragment() {
                 uiGpsElaspedRealtimeMillis.text = none
                 uiGpsTime.text = none
             }
+
+    override fun updateStatus(status: Int) =
+            activity.runOnUiThread {
+                uiGpsStatus.text = when(status) {
+                    LocationProvider.AVAILABLE -> "Available"
+                    LocationProvider.OUT_OF_SERVICE -> "Out of service"
+                    LocationProvider.TEMPORARILY_UNAVAILABLE -> "Temporarily unavailable"
+                    else -> "Unknown $status"
+                }
+            }
+
+    override fun resetStatus() =
+            activity.runOnUiThread { uiGpsStatus.setText(R.string.no_value) }
 
 }

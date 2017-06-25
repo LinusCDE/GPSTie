@@ -3,6 +3,7 @@ package me.linus.gpstie.activity.gpsreceiver
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
+import android.location.LocationProvider
 import me.linus.gpstie.GpsLocation
 
 class MockProvider(val provider: String, val context: Context) {
@@ -18,7 +19,12 @@ class MockProvider(val provider: String, val context: Context) {
 
     fun setEnabled(enabled: Boolean) =
         when(enabled){
-            true -> getLocationManager().setTestProviderEnabled(provider, enabled)
+            true -> {
+                val locationManager = getLocationManager()
+                locationManager.setTestProviderEnabled(provider, enabled)
+                locationManager.setTestProviderStatus(provider, LocationProvider.AVAILABLE,
+                        null, System.currentTimeMillis())
+            }
             false -> {
                 val locationManager = getLocationManager()
                 locationManager.clearTestProviderEnabled(provider)
@@ -29,6 +35,9 @@ class MockProvider(val provider: String, val context: Context) {
 
     fun updateLocation(location: GpsLocation) =
             getLocationManager().setTestProviderLocation(provider, location)
+
+    fun updateStatus(status: Int, time: Long) =
+            getLocationManager().setTestProviderStatus(provider, status, null, time)
 
     fun remove() = getLocationManager().removeTestProvider(provider)
 

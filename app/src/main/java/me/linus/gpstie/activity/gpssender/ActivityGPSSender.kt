@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.location.LocationProvider
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
@@ -21,8 +22,9 @@ import android.widget.Toast
 import android.widget.ToggleButton
 import me.linus.gpstie.MyActivityBase
 import me.linus.gpstie.GpsLocation
+import me.linus.gpstie.LocationReceiver
 import me.linus.gpstie.R
-import me.linus.gpstie.fragment.GPSDataFragment
+import me.linus.gpstie.fragment.GPSInfoDetailsFragment
 import java.net.NetworkInterface
 
 class ActivityGPSSender: MyActivityBase() {
@@ -30,6 +32,8 @@ class ActivityGPSSender: MyActivityBase() {
     companion object {
 
         val REQUEST_CODE_GPS_PERM = 111
+
+        val GPS_STATE_DONT_SEND = -11
 
     }
 
@@ -40,10 +44,12 @@ class ActivityGPSSender: MyActivityBase() {
     lateinit var uiServerAddress: TextView
     lateinit var uiServerStatus: TextView
     // GPS:
-    lateinit var gpsDataFragment: GPSDataFragment
+    lateinit var gpsLocationReceiver: LocationReceiver
     // ------------------------
 
     lateinit var server: GTServer
+
+    var lastGpsState: Int = GPS_STATE_DONT_SEND
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +108,7 @@ class ActivityGPSSender: MyActivityBase() {
         val locationListener = object: LocationListener {
 
             override fun onProviderDisabled(provider: String?) {
-                if(provider == null || !provider.contains("gps")) return
+                if (provider == null || !provider.contains("gps")) return
                 // GPS turned off or was off
 
                 val dialogBuilder = AlertDialog.Builder(context)
@@ -116,17 +122,31 @@ class ActivityGPSSender: MyActivityBase() {
 
                 dialogBuilder.show()
 
-                gpsDataFragment.resetLocation()
+                gpsLocationReceiver.resetLocation()
+
+                if(provider?.contains("gps"))
+                    updateStatus(LocationProvider.TEMPORARILY_UNAVAILABLE)
             }
 
-            override fun onProviderEnabled(provider: String?) = Unit
-            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
+            override fun onProviderEnabled(provider: String) {
+                if(provider?.contains("gps"))
+                    updateStatus(LocationProvider.AVAILABLE)
+            }
+
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) =
+                updateStatus(status)
 
             override fun onLocationChanged(location: Location?) {
                 if(location == null) return
 
-                gpsDataFragment.updateLocation(GpsLocation.fromLocation(location))
+                gpsLocationReceiver.updateLocation(GpsLocation.fromLocation(location))
                 server.updateLocation(location)
+            }
+
+            fun updateStatus(status: Int){
+                lastGpsState = status
+                server.updateStatus(status)
+                gpsLocationReceiver.updateStatus(status)
             }
 
         }
@@ -134,12 +154,12 @@ class ActivityGPSSender: MyActivityBase() {
         locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, locationListener)
 
         // Create and load GPS-Data fragment
-        gpsDataFragment = GPSDataFragment()
-        loadFragment(gpsDataFragment)
+        gpsLocationReceiver = GPSInfoDetailsFragment()
+        loadFragment(gpsLocationReceiver as Fragment)
 
         // Server setup:
         server = GTServer(object: GTServer.GTServerListener {
-            override fun onStatusChanged(status: String) =
+            override fun onServerStatusChanged(status: String) =
                 runOnUiThread { uiServerStatus.text = status }
 
             override fun onServerStarted() =
@@ -153,6 +173,11 @@ class ActivityGPSSender: MyActivityBase() {
                         uiServerStartStop.isChecked = false
                         wakeLock.release()
                     }
+
+            override fun onClientConnected(clientConnection: GTConnection, server: GTServer) {
+                if(lastGpsState != GPS_STATE_DONT_SEND)
+                    server.updateStatus(lastGpsState, singleReceiver = clientConnection)
+            }
         })
 
         uiServerStartStop.setOnClickListener {

@@ -10,7 +10,8 @@ import java.nio.charset.Charset
 class GTClient(val clientListener: GTClientListener) {
 
     interface GTClientListener {
-        fun onStatusChanged(status: String)
+        fun onClientStatusChanged(status: String)
+        fun onGpsStatusChanged(status: Int, time: Long)
         fun onLocationReceived(location: GpsLocation)
         fun onClientConnecting()
         fun onClientConnected()
@@ -23,7 +24,7 @@ class GTClient(val clientListener: GTClientListener) {
 
     fun connect(ip: String, port: Int = GTServer.SERVER_PORT) {
         clientListener.onClientConnecting()
-        clientListener.onStatusChanged("Connecting...")
+        clientListener.onClientStatusChanged("Connecting...")
         if(isConnected()) disconnect()
 
         clientMainThread = Thread {
@@ -47,7 +48,7 @@ class GTClient(val clientListener: GTClientListener) {
                 }.apply { name = "GpsTie-Client-Pinger" }.also { it.start() }
 
                 val reader = client!!.getInputStream().bufferedReader(Charset.forName("UTF-8"))
-                clientListener.onStatusChanged("Connected.")
+                clientListener.onClientStatusChanged("Connected.")
                 clientListener.onClientConnected()
 
                 while(true) {
@@ -56,17 +57,23 @@ class GTClient(val clientListener: GTClientListener) {
                         disconnect()
                         return@Thread
                     }
-                    clientListener.onStatusChanged("Connected. Receiving Data...")
+                    clientListener.onClientStatusChanged("Connected. Receiving Data...")
 
                     val jsonStr = String(
                             Base64.decode(line, Base64.NO_WRAP), Charset.forName("UTF-8"))
-                    val location = GpsLocation.fromJson(JSONObject(jsonStr))
+                    val json = JSONObject(jsonStr)
 
-                    clientListener.onLocationReceived(location)
+                    when(json.getString("type")) {
+                        "location" -> clientListener.onLocationReceived(GpsLocation.fromJson(json))
+                        "status" -> clientListener.onGpsStatusChanged(json.getInt("status"),
+                                json.getLong("time"))
+                        else -> println("Unkown packet received!")
+                    }
+
                 }
 
             }catch (e: Exception) {
-                clientListener.onStatusChanged("Connection failed: ${e.message}")
+                clientListener.onClientStatusChanged("Connection failed: ${e.message}")
                 disconnect()
             }
 
@@ -87,7 +94,7 @@ class GTClient(val clientListener: GTClientListener) {
         clientMainThread = null
         clientPingingThread = null
         clientListener.onClientDisconnected()
-        clientListener.onStatusChanged("Disconnected")
+        clientListener.onClientStatusChanged("Disconnected")
     }
 
 }

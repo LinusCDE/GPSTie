@@ -19,7 +19,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_latitude"
+                android:id="@+id/gt_gpsinfo_details_latitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -36,7 +36,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_longitude"
+                android:id="@+id/gt_gpsinfo_details_longitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -53,7 +53,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_accuracy"
+                android:id="@+id/gt_gpsinfo_details_accuracy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -70,7 +70,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_altitude"
+                android:id="@+id/gt_gpsinfo_details_altitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -87,7 +87,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_bearing"
+                android:id="@+id/gt_gpsinfo_details_bearing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -104,7 +104,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_speed"
+                android:id="@+id/gt_gpsinfo_details_speed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -121,7 +121,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_provider"
+                android:id="@+id/gt_gpsinfo_details_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -138,7 +138,7 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_elapsed_realtime_nanos"
+                android:id="@+id/gt_gpsinfo_details_elapsed_realtime_nanos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
@@ -155,7 +155,24 @@
                 android:layout_marginRight="@dimen/key_value_distance"/>
 
             <TextView
-                android:id="@+id/gt_gpsdata_time"
+                android:id="@+id/gt_gpsinfo_details_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_value"/>
+
+        </TableRow>
+
+        <!-- Gps-Status -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status:"
+                android:layout_marginRight="@dimen/key_value_distance"/>
+
+            <TextView
+                android:id="@+id/gt_gpsinfo_details_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/no_value"/>
