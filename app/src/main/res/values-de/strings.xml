@@ -23,7 +23,7 @@
     <!-- GPSReceiver-EnableMocking-Dialog -->
     <string name="gt_gr_title_mocking">Erlaube Mock-Locations</string>
     <string name="gt_gr_message_mocking">
-        Damit in andere Apps (außer G-Maps) diesen Standort sehen können,
+        Damit in andere Apps (außer G-Maps auf einigen Handys) diesen Standort sehen können,
         musst du dieser App Mock/Pseudo/Fake-Locations erlauben.\n\n
         Gehe hierfür in <i>Android-Einstellungen » Über das Telefon / Telefoninfo</i> und
         klicke mehrfach auf die <b>Build-Nummer</b> bis eine Nachricht erscheint, dass
