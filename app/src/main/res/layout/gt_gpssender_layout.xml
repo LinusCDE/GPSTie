@@ -15,7 +15,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Server Status:"
+            android:text="@string/gt_gs_title_server"
             android:textSize="@dimen/category_title"/>
 
         <!-- Soft divider -->
@@ -29,8 +29,8 @@
             android:id="@+id/gt_gs_server_start_stop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textOff="Server starten"
-            android:textOn="Server stoppen"/>
+            android:textOff="@string/gt_gs_button_start_server"
+            android:textOn="@string/gt_gs_button_stop_server"/>
 
         <!-- Additional Server content -->
         <TableLayout
@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Adresse:"
+                    android:text="@string/gt_gs_label_server_address"
                     android:layout_marginRight="@dimen/key_value_distance"/>
 
                 <TextView
@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status:"
+                    android:text="@string/gt_gs_label_server_status"
                     android:layout_marginRight="@dimen/key_value_distance"/>
 
                 <TextView
@@ -88,7 +88,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GPS-Status:"
+            android:text="@string/gt_gs_title_gps_state"
             android:textSize="@dimen/category_title"/>
 
         <!-- soft divider -->

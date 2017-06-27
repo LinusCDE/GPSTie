@@ -13,23 +13,26 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="15dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_gpssender_grey_500_24dp"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPS senden/teilen" />
+            android:text="@string/gt_grs_button_gpssend" />
 
     </LinearLayout>
 
     <View
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/dividerSoft" />
@@ -40,19 +43,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="15dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_gpsreceiver_grey_500_24dp"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginEnd="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GPS empfangen" />
+            android:text="@string/gt_grs_button_gpsreceive" />
     </LinearLayout>
 
     <View
@@ -75,7 +79,7 @@
             android:id="@+id/gt_grs_dontaskagaincb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nicht erneut fragen"
+            android:text="@string/gt_grs_checkbox_dontaskagain"
             android:layout_marginRight="5dp"/>
 
     </LinearLayout>

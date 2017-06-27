@@ -5,6 +5,6 @@
     <item
         android:id="@+id/menu_reassign"
         android:icon="@drawable/ic_assignment_return_grey_200_24dp"
-        android:title="Modus ändern"
+        android:title="@string/gt_menu_default_label_change_mode"
         app:showAsAction="always" />
 </menu>

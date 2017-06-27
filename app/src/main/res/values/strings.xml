@@ -1,5 +1,88 @@
 <resources>
-    <string name="app_name">GPS Tie</string>
 
+    <!-- Global -->
+    <string name="app_name">GPS Tie</string>
     <string name="no_value">--</string>
+
+    <!-- GPSRoleSelectDialog-Layout -->
+    <string name="gt_grs_title_chooserole">GPS-Tie - Choose mode</string>
+    <string name="gt_grs_button_gpssend">Send/Share GPS</string>
+    <string name="gt_grs_button_gpsreceive">Receive GPS</string>
+    <string name="gt_grs_checkbox_dontaskagain">Don\'t ask again</string>
+
+    <!-- GPSReceiver-Layout -->
+    <string name="gt_gr_title_app_name">GPS-Receiver</string>
+    <string name="gt_gr_title_client">Connect:</string>
+    <string name="gt_gr_label_server_address">Server-Address:</string>
+    <string name="gt_gr_button_connect">Connect</string>
+    <string name="gt_gr_button_disconnect">Disconnect</string>
+    <string name="gt_gr_label_client_state">Status:</string>
+
+    <string name="gt_gr_title_gps_state">GPS-State:</string>
+
+    <!-- GPSReceiver-EnableMocking-Dialog -->
+    <string name="gt_gr_title_mocking">Allow Mock-Locations</string>
+    <string name="gt_gr_message_mocking">
+        If you want other Apps (except G-Maps) to show this location, you have to allow
+        Mock/Pseudo/Fake-Locations to this App.\n\n
+        To do this, go to <i>Android-Settings » About phone</i> and click the <b>Build number</b>
+        till a message appears saying that you\'re now a Developer.\n
+        After that go to the new Entry <b>Developer options</b> (usually above \"About phone\") in
+        the Settings and allow <b>Mock-Locations</b> and/or select this App for it.\n\n
+        After that everything should work here.
+    </string>
+    <string name="gt_gr_button_mocking_ok">Ok</string>
+
+    <!-- GPSSender-Layout -->
+    <string name="gt_gs_title_app_name">GPS-Sender</string>
+    <string name="gt_gs_title_server">Server:</string>
+    <string name="gt_gs_button_start_server">Start server</string>
+    <string name="gt_gs_button_stop_server">Stop server</string>
+    <string name="gt_gs_label_server_address">Address:</string>
+    <string name="gt_gs_label_server_status">Status:</string>
+
+    <string name="gt_gs_title_gps_state">GPS-Status:</string>
+
+    <!-- GPSSender-Layout-Dynamic -->
+    <string name="gt_gs_label_enable_wifi_ap">Connect to WiFi or enable Hotspot!</string>
+
+    <!-- GPSSender-GPSMissing-Dialog -->
+    <string name="gt_gs_title_gps_missing">GPS is disabled</string>
+    <string name="gt_gs_message_gps_missing">
+        Please activate GPS in order to share your location.</string>
+    <string name="gt_gs_button_gps_missing">Open Location-Settings</string>
+
+    <!-- GPSSender-Wifi_AP-Missing-Toast -->
+    <string name="gt_gs_message_wifi_ap_missing">
+        You need to be connected to a WiFi-Network or enable Hotspot.</string>
+
+    <!-- GPSSender-NoGpsPerms-Dialog -->
+    <string name="gt_gs_title_nogpsperms">GPS is mandatory!</string>
+    <string name="gt_gs_message_nogpsperms">
+        In order to share your location, this App needs permissions to use your GPS!</string>
+    <string name="gt_gs_button_nogpsperms">Ok</string>
+
+    <!-- GPSInfo-Details-Layout -->
+    <string name="gt_gpsinfo_details_label_latitude">Latitude:</string>
+    <string name="gt_gpsinfo_details_label_longitude">Longitude:</string>
+    <string name="gt_gpsinfo_details_label_accuracy">Accuracy:</string>
+    <string name="gt_gpsinfo_details_label_altitude">Altitude:</string>
+    <string name="gt_gpsinfo_details_label_bearing">Bearing:</string>
+    <string name="gt_gpsinfo_details_label_speed">Speed:</string>
+    <string name="gt_gpsinfo_details_label_provider">Provider:</string>
+    <string name="gt_gpsinfo_details_label_elapsed_realtime_nanos">Elapsed realtime nanos:</string>
+    <string name="gt_gpsinfo_details_label_time">Time:</string>
+    <string name="gt_gpsinfo_details_label_status">Status:</string>
+
+    <!-- GPSInfo-Details-GPS-States -->
+    <string name="gt_gpsinfo_details_label_gps_available">Available</string>
+    <string name="gt_gpsinfo_details_label_gps_temporarily_unavailable">
+        Temporarily unavailable</string>
+    <string name="gt_gpsinfo_details_label_gps_out_of_service">Out of service</string>
+    <string name="gt_gpsinfo_details_label_unknown">Unknown status (%d)</string>
+
+    <!-- Menu -->
+    <string name="gt_menu_default_label_change_mode">Change mode</string>
+
+
 </resources>

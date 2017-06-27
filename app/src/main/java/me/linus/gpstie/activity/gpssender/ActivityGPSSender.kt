@@ -32,7 +32,6 @@ class ActivityGPSSender: MyActivityBase() {
     companion object {
 
         val REQUEST_CODE_GPS_PERM = 111
-
         val GPS_STATE_DONT_SEND = -11
 
     }
@@ -77,7 +76,7 @@ class ActivityGPSSender: MyActivityBase() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gt_gpssender_layout)
 
-        supportActionBar?.title = "GPS-Sender"
+        setTitle(R.string.gt_gs_title_app_name)
 
         uiServerStartStop = findViewById(R.id.gt_gs_server_start_stop) as ToggleButton
         uiServerAddress = findViewById(R.id.gt_gs_server_address) as TextView
@@ -101,7 +100,8 @@ class ActivityGPSSender: MyActivityBase() {
     fun setupUi() {
         // Display Ip-Address:
         val refreshIp = {
-            uiServerAddress.text = getLocalIp() ?: "Schalte Wlan oder Hotspot an!"
+            uiServerAddress.text = getLocalIp() ?:
+                    resources.getString(R.string.gt_gs_label_enable_wifi_ap)
         }
 
         // Handle Ip-Changes:
@@ -124,25 +124,13 @@ class ActivityGPSSender: MyActivityBase() {
         // Source: https://developer.android.com/guide/topics/location/strategies.html#Updates
         locationService = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        val context = this
-
         locationListener = object: LocationListener {
 
             override fun onProviderDisabled(provider: String?) {
                 if (provider == null || !provider.contains("gps")) return
                 // GPS turned off or was off
 
-                val dialogBuilder = AlertDialog.Builder(context)
-
-                dialogBuilder.setTitle("GPS ist aus")
-                dialogBuilder.setMessage("Bitte aktiviere GPS.")
-
-                dialogBuilder.setPositiveButton("Standort-Einstellungen öffnen", { _, _ ->
-                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                })
-
-                dialogBuilder.show()
-
+                showDialogGpsMissing()
                 gpsLocationReceiver.resetLocation()
 
                 if(provider?.contains("gps"))
@@ -211,8 +199,8 @@ class ActivityGPSSender: MyActivityBase() {
                 true -> {
                     if(getLocalIp() == null){
                         uiServerStartStop.isChecked = false
-                        Toast.makeText(context, "Du musst mit einem W-Lan verbunden sein oder " +
-                                "einen Hotspot aktiv haben!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.gt_gs_message_wifi_ap_missing,
+                                Toast.LENGTH_LONG).show()
                     }else
                         server.start()
                 }
@@ -272,18 +260,26 @@ class ActivityGPSSender: MyActivityBase() {
      * Complains and quits this activity when checkGpsPermission()
      * detected a lack of the permission to use GPS.
      */
-    fun complainAboutGpsAndQuit() {
+    fun complainAboutGpsAndQuit() { // could also be named "showDialogNoGpsPerms()"
         val dialogBuilder = AlertDialog.Builder(this)
 
-        dialogBuilder.setTitle("GPS ist nötig!")
-        dialogBuilder.setMessage("Damit du deinen Standort teilen kannst, muss die App " +
-                "rechte für das GPS haben!")
+        dialogBuilder.setTitle(R.string.gt_gs_title_nogpsperms)
+        dialogBuilder.setMessage(R.string.gt_gs_message_nogpsperms)
+        dialogBuilder.setNeutralButton(R.string.gt_gs_button_nogpsperms,
+                { _, _ -> returnToMainActivity() }) // Back to main screen
 
-        // Perform check again
-        dialogBuilder.setNeutralButton("Ok", { _, _ -> returnToMainActivity() })
         dialogBuilder.setCancelable(false)
+        dialogBuilder.show()
+    }
 
-        // Show dialog
+    fun showDialogGpsMissing() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle(R.string.gt_gs_title_gps_missing)
+        dialogBuilder.setMessage(R.string.gt_gs_message_gps_missing)
+        dialogBuilder.setPositiveButton(R.string.gt_gs_button_gps_missing, { _, _ ->
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+        })
+
         dialogBuilder.show()
     }
 

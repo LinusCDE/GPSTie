@@ -12,12 +12,12 @@
         <!-- Connection status -->
         <!-- ====================================== -->
 
-        <!-- Server status title -->
+        <!-- Client status title -->
         <TextView
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verbinden:"
+            android:text="@string/gt_gr_title_client"
             android:textSize="@dimen/category_title"/>
 
         <!-- Soft divider -->
@@ -29,9 +29,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Server-Adresse:" />
+            android:text="@string/gt_gr_label_server_address" />
 
-        <!-- Start/Stop Server -->
+        <!-- Start/Stop Client -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
 
             <EditText
                 android:id="@+id/gt_gr_address"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:layout_weight="1"/>
@@ -48,12 +48,12 @@
                 android:id="@+id/gt_gr_connect_disconnect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOff="Verbinden"
-                android:textOn="Trennen"/>
+                android:textOff="@string/gt_gr_button_connect"
+                android:textOn="@string/gt_gr_button_disconnect"/>
 
         </LinearLayout>
 
-        <!-- Additional Server content -->
+        <!-- Additional Client content -->
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -64,8 +64,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status:"
-                    android:layout_marginRight="@dimen/key_value_distance"/>
+                    android:text="@string/gt_gr_label_client_state"
+                    android:layout_marginStart="@dimen/key_value_distance"/>
 
                 <TextView
                     android:id="@+id/gt_gr_status"
@@ -92,7 +92,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GPS-Status:"
+            android:text="@string/gt_gr_title_gps_state"
             android:textSize="@dimen/category_title"/>
 
         <!-- soft divider -->

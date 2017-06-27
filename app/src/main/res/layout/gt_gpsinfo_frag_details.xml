@@ -15,13 +15,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Latitude:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_latitude" />
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_latitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -32,13 +32,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Longitude:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_longitude"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_longitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -49,13 +49,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Accuracy:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_accuracy"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_accuracy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -66,13 +66,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Altitude:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_altitude"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_altitude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -83,13 +83,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bearing:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_bearing"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_bearing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -100,13 +100,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Speed:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_speed"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_speed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -117,13 +117,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Provider:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_provider"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_provider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -134,13 +134,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ElapsedRealtimeNanos:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_elapsed_realtime_nanos"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_elapsed_realtime_nanos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -151,13 +151,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_time"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>
@@ -168,13 +168,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Status:"
-                android:layout_marginRight="@dimen/key_value_distance"/>
+                android:text="@string/gt_gpsinfo_details_label_status"/>
 
             <TextView
                 android:id="@+id/gt_gpsinfo_details_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/key_value_distance"
                 android:text="@string/no_value"/>
 
         </TableRow>

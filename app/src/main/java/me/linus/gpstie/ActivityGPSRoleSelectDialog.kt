@@ -28,6 +28,8 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gt_gpsroleselect_layout_dialog)
 
+        setTitle(R.string.gt_grs_title_chooserole)
+
         // Open Prefs
         prefs = getPreferences(Context.MODE_PRIVATE)
 

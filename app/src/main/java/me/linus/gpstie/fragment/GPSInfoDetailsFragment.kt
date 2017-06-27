@@ -77,10 +77,13 @@ class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
     override fun updateStatus(status: Int) =
             activity.runOnUiThread {
                 uiGpsStatus.text = when(status) {
-                    LocationProvider.AVAILABLE -> "Available"
-                    LocationProvider.OUT_OF_SERVICE -> "Out of service"
-                    LocationProvider.TEMPORARILY_UNAVAILABLE -> "Temporarily unavailable"
-                    else -> "Unknown $status"
+                    LocationProvider.AVAILABLE ->
+                        resources.getString(R.string.gt_gpsinfo_details_label_gps_available)
+                    LocationProvider.OUT_OF_SERVICE ->
+                        resources.getString(R.string.gt_gpsinfo_details_label_gps_out_of_service)
+                    LocationProvider.TEMPORARILY_UNAVAILABLE ->
+                        resources.getString(R.string.gt_gpsinfo_details_label_gps_temporarily_unavailable)
+                    else -> resources.getString(R.string.gt_gpsinfo_details_label_unknown, status)
                 }
             }
 

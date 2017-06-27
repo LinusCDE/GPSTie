@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="category_title">18dp</dimen>
+    <dimen name="category_title">18sp</dimen>
     <dimen name="key_value_distance">10dp</dimen>
 
 </resources>

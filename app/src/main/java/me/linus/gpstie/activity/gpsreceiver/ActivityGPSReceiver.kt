@@ -1,5 +1,6 @@
 package me.linus.gpstie.activity.gpsreceiver
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.location.LocationManager
@@ -35,7 +36,7 @@ class ActivityGPSReceiver: MyActivityBase() {
 
         prefs = getPreferences(Context.MODE_PRIVATE)
 
-        supportActionBar?.title = "GPS-Receiver"
+        setTitle(R.string.gt_gr_title_app_name)
 
         uiAddress = findViewById(R.id.gt_gr_address) as EditText
         uiConnectDisconnect = findViewById(R.id.gt_gr_connect_disconnect) as ToggleButton
@@ -109,6 +110,7 @@ class ActivityGPSReceiver: MyActivityBase() {
             mockProvider = MockProvider(LocationManager.GPS_PROVIDER, this)
         }catch (e: Exception) {
             e.printStackTrace()
+            showDialogAllowMocking()
         }
     }
 
@@ -126,6 +128,16 @@ class ActivityGPSReceiver: MyActivityBase() {
         }
 
         super.onDestroy()
+    }
+
+    fun showDialogAllowMocking() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle(R.string.gt_gr_title_mocking)
+        dialogBuilder.setMessage(R.string.gt_gr_message_mocking)
+        dialogBuilder.setNeutralButton(R.string.gt_gr_button_mocking_ok,
+                {_, _ -> returnToMainActivity() })
+        dialogBuilder.setCancelable(false)
+        dialogBuilder.show()
     }
 
 }
