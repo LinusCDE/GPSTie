@@ -1,13 +1,13 @@
-package me.linus.gpstie.activity.gpsreceiver
+package me.linus.gpstie.gpsreceiver
 
 import android.util.Base64
 import me.linus.gpstie.GpsLocation
-import me.linus.gpstie.activity.gpssender.GTServer
+import me.linus.gpstie.gpssender.GTServer
 import org.json.JSONObject
 import java.net.Socket
 import java.nio.charset.Charset
 
-class GTClient(val clientListener: GTClientListener) {
+class GTClient(var clientListener: GTClientListener) {
 
     interface GTClientListener {
         fun onClientStatusChanged(status: String)
@@ -21,8 +21,12 @@ class GTClient(val clientListener: GTClientListener) {
     var client: Socket? = null
     var clientMainThread: Thread? = null
     var clientPingingThread: Thread? = null
+    var connectedToIp: String? = null
+    var connectedToPort: Int = -1
 
     fun connect(ip: String, port: Int = GTServer.SERVER_PORT) {
+        connectedToIp = ip
+        connectedToPort = port
         clientListener.onClientConnecting()
         clientListener.onClientStatusChanged("Connecting...")
         if(isConnected()) disconnect()
@@ -87,6 +91,8 @@ class GTClient(val clientListener: GTClientListener) {
                     && clientPingingThread != null && clientPingingThread!!.isAlive
 
     fun disconnect() {
+        connectedToIp = null
+        connectedToPort = -1
         try { client?.close() } catch (e: Exception) { }
         try { clientMainThread?.stop() } catch (e: Exception) { }
         try { clientPingingThread?.stop() } catch (e: Exception) { }

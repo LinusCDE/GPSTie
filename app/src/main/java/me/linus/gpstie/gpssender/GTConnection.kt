@@ -1,4 +1,4 @@
-package me.linus.gpstie.activity.gpssender
+package me.linus.gpstie.gpssender
 
 import me.linus.gpstie.AsyncExecutor
 import java.net.Socket
@@ -31,7 +31,7 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
     fun disconnect() {
         gtServer.connectedClients.remove(this)
         gtServer.updateClientCount()
-        gtServer.serverListener.onClientDisonnected(this, gtServer)
+        gtServer.serverListener.onClientDisconnected(this, gtServer)
         try { clientInputThread.stop() }catch(e: Exception) { }
         try { client.close() }catch(e: Exception) { }
         executor.close()

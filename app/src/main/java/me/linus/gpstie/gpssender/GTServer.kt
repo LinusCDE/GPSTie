@@ -1,4 +1,4 @@
-package me.linus.gpstie.activity.gpssender
+package me.linus.gpstie.gpssender
 
 import android.location.Location
 import android.util.Base64
@@ -13,7 +13,7 @@ class GTServer(val serverListener: GTServerListener) {
         fun onServerStarted()
         fun onServerStopped()
         fun onClientConnected(clientConnection: GTConnection, server: GTServer)
-        fun onClientDisonnected(clientConnection: GTConnection, server: GTServer)
+        fun onClientDisconnected(clientConnection: GTConnection, server: GTServer)
     }
 
     companion object {

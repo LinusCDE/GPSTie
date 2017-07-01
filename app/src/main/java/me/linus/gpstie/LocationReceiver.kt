@@ -1,10 +1,10 @@
 package me.linus.gpstie
 
-import me.linus.gpstie.GpsLocation
+import android.location.Location
 
 interface LocationReceiver {
 
-    fun updateLocation(location: GpsLocation)
+    fun updateLocation(location: Location)
     fun resetLocation()
 
     fun updateStatus(status: Int)

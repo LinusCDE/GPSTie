@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CheckBox
 import android.widget.LinearLayout
-import me.linus.gpstie.activity.gpsreceiver.ActivityGPSReceiver
-import me.linus.gpstie.activity.gpssender.ActivityGPSSender
+import me.linus.gpstie.gpsreceiver.ActivityGPSReceiver
+import me.linus.gpstie.gpssender.ActivityGPSSender
 
 class ActivityGPSRoleSelectDialog : AppCompatActivity() {
 

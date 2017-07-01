@@ -1,7 +1,6 @@
-package me.linus.gpstie.activity.gpsreceiver
+package me.linus.gpstie.gpsreceiver
 
 import android.content.Context
-import android.location.Location
 import android.location.LocationManager
 import android.location.LocationProvider
 import me.linus.gpstie.GpsLocation
