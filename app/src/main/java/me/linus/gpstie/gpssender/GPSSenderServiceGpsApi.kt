@@ -65,7 +65,6 @@ class GPSSenderServiceGpsApi(val locationManager: LocationManager,
             if(value == field) return
             when(value) {
                 true -> {
-                    println("]====================: StartGPS")
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER, 0L, 0F, internalLocationListener)
                 }
