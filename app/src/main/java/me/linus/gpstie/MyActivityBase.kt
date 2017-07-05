@@ -33,7 +33,7 @@ open class MyActivityBase : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when(item?.itemId) {
-            R.id.menu_reassign -> {
+            R.id.menu_to_roleselect -> {
                 returnToMainActivity()
             }
             else -> return false

@@ -26,7 +26,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/gt_grs_button_gpssend" />
+            android:layout_gravity="center"
+            android:text="@string/gt_grs_button_gpssend"/>
 
     </LinearLayout>
 
@@ -56,6 +57,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/gt_grs_button_gpsreceive" />
     </LinearLayout>
 

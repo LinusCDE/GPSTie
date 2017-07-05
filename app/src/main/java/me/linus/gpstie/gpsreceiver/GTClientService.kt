@@ -33,7 +33,7 @@ class GTClientService: Service() {
 
     fun lockService() {
         val notifcationBuilder = Notification.Builder(this)
-        notifcationBuilder.setSmallIcon(R.drawable.ic_gpsreceiver_grey_500_24dp)
+        notifcationBuilder.setSmallIcon(R.drawable.ic_stat_gpsreceiver)
         notifcationBuilder.setContentTitle("GPS-Receiver")
         notifcationBuilder.setContentText("Connected to ${client.connectedToIp}")
 

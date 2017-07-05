@@ -147,7 +147,7 @@ class GPSSenderService: Service() {
 
     fun lockService() {
         val notifcationBuilder = Notification.Builder(this)
-        notifcationBuilder.setSmallIcon(R.drawable.ic_gpssender_grey_500_24dp)
+        notifcationBuilder.setSmallIcon(R.drawable.ic_stat_gpssender)
         notifcationBuilder.setContentTitle("GPS-Sender")
         notifcationBuilder.setContentText("Server is running...")
 
