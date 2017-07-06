@@ -25,6 +25,8 @@ class GPSReceiverService : Service() {
         override fun onGpsStatusChanged(status: Int, time: Long) {}
     }
 
+    var isBound = false
+
     val client: GTClient = GTClient(GTClientDummyListener())
     val binder = GTClientServiceBinder(this)
 
@@ -53,7 +55,11 @@ class GPSReceiverService : Service() {
         startForeground(NOTIFICATION_ID, notification)
     }
 
-    fun unlockService() = stopForeground(true)
+    fun unlockService() {
+        stopForeground(true)
+        if(!isBound)
+            stopSelf()
+    }
 
     override fun onCreate() {
         super.onCreate()
@@ -74,7 +80,19 @@ class GPSReceiverService : Service() {
         return Service.START_STICKY
     }
 
-    override fun onBind(intent: Intent?): IBinder = binder
+    override fun onBind(intent: Intent?): IBinder {
+        isBound = true
+        return binder
+    }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        isBound = false
+        return super.onUnbind(intent)
+    }
+
+    override fun onRebind(intent: Intent?) {
+        isBound = true
+    }
 
     class GTClientServiceBinder(val service: GPSReceiverService): Binder() {
 

@@ -23,16 +23,14 @@ class GPSSenderService: Service() {
         val NOTIFICATION_ID = 102
     }
 
-    val handler = Handler()
+    var isBound = false
 
+    val handler = Handler()
     val binder = GPSSenderServiceBinder(this)
-    
-    var initialized = false
 
     lateinit var gpsApi: GPSSenderServiceGpsApi
 
-    // For registering
-    var assignableListener: GTServer.GTServerListener? = null
+    var assignableListener: GTServer.GTServerListener? = null // For registering
 
     val server = GTServer(object: GTServer.GTServerListener {
         override fun onServerStatusChanged(status: String) {
@@ -88,22 +86,32 @@ class GPSSenderService: Service() {
 
     }
 
-    override fun onBind(intent: Intent?): IBinder = binder
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if(!initialized) {
-            gpsApi = GPSSenderServiceGpsApi(
-                    baseContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager,
-                    server)
-            lastIp = getLocalIp()
-            registerReceiver(networkActionReceiver,
-                    IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-
-            initialized = true
-        }
-
-        return Service.START_NOT_STICKY
+    override fun onBind(intent: Intent?): IBinder {
+        isBound = true
+        return binder
     }
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        isBound = false
+        return super.onUnbind(intent)
+    }
+
+    override fun onRebind(intent: Intent?) {
+        isBound = true
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        gpsApi = GPSSenderServiceGpsApi(
+                baseContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager,
+                server)
+        lastIp = getLocalIp()
+        registerReceiver(networkActionReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int =
+            Service.START_NOT_STICKY
 
     override fun onDestroy() {
         gpsApi.gpsEnabled = false
@@ -167,6 +175,10 @@ class GPSSenderService: Service() {
         startForeground(NOTIFICATION_ID, notification)
     }
 
-    fun unlockService() = stopForeground(true)
+    fun unlockService() {
+        stopForeground(true)
+        if(!isBound)
+            stopSelf()
+    }
 
 }
