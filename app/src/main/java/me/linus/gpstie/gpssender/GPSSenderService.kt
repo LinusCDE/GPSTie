@@ -155,9 +155,9 @@ class GPSSenderService: Service() {
 
     fun lockService() {
         val notificationBuilder = Notification.Builder(this)
-        notificationBuilder.setSmallIcon(R.drawable.ic_stat_gpssender)
-        notificationBuilder.setContentTitle("GPS-Sender")
-        notificationBuilder.setContentText("Server is running...")
+                .setSmallIcon(R.drawable.ic_stat_gpssender)
+                .setContentTitle("GPS-Sender")
+                .setContentText("Server is running...")
 
         // Open ActivityGPSSender at click:
         // thanks to https://stackoverflow.com/a/38107532/3949509

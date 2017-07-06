@@ -35,9 +35,9 @@ class GPSReceiverService : Service() {
 
     fun lockService() {
         val notificationBuilder = Notification.Builder(this)
-        notificationBuilder.setSmallIcon(R.drawable.ic_stat_gpsreceiver)
-        notificationBuilder.setContentTitle("GPS-Receiver")
-        notificationBuilder.setContentText("Connected to ${client.connectedToIp}")
+                .setSmallIcon(R.drawable.ic_stat_gpsreceiver)
+                .setContentTitle("GPS-Receiver")
+                .setContentText("Connected to ${client.connectedToIp}")
 
         // Open ActivityGPSReceiver at click:
         // thanks to https://stackoverflow.com/a/38107532/3949509
