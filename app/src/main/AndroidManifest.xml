@@ -32,9 +32,6 @@
 
     </application>
 
-    <!-- Keep activities in background running -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <!-- Client/Server -->
     <uses-permission android:name="android.permission.INTERNET" />
 

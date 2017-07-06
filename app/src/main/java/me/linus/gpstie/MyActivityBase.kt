@@ -15,16 +15,6 @@ import android.view.MenuItem
  */
 open class MyActivityBase : AppCompatActivity() {
 
-    // Controls wether this activity can put into Sleep mode
-    lateinit var wakeLock: PowerManager.WakeLock
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "GPS-Tie AntiSleep");
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_default, menu)
         return true
