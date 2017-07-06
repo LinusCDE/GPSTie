@@ -75,7 +75,7 @@ class ActivityGPSReceiver: MyActivityBase() {
     }
 
 
-    var serviceBinder: GTClientService.GTClientServiceBinder? = null
+    var serviceBinder: GPSReceiverService.GTClientServiceBinder? = null
     val connection = object: ServiceConnection {
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -85,7 +85,7 @@ class ActivityGPSReceiver: MyActivityBase() {
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             if(service == null) return
-            serviceBinder = service as GTClientService.GTClientServiceBinder
+            serviceBinder = service as GPSReceiverService.GTClientServiceBinder
             serviceBinder?.registerListener(clientListener)
             runOnUiThread {
                 uiAddress.isEnabled = !(serviceBinder?.service?.client?.isConnected() ?: true)
@@ -125,7 +125,7 @@ class ActivityGPSReceiver: MyActivityBase() {
         gpsLocationReceiver = GPSInfoDetailsFragment()
         loadFragment(gpsLocationReceiver as Fragment)
 
-        val service = Intent(this, GTClientService::class.java)
+        val service = Intent(this, GPSReceiverService::class.java)
         startService(service)
         bindService(service, connection, Context.BIND_IMPORTANT)
     }
@@ -143,7 +143,7 @@ class ActivityGPSReceiver: MyActivityBase() {
         dialogBuilder.setMessage(R.string.gt_gr_message_mocking)
         dialogBuilder.setNeutralButton(R.string.gt_gr_button_mocking_ok,
                 {_, _ ->
-                    stopService(Intent(this, GTClientService::class.java))
+                    stopService(Intent(this, GPSReceiverService::class.java))
                     returnToMainActivity() })
         dialogBuilder.setCancelable(false)
         dialogBuilder.show()

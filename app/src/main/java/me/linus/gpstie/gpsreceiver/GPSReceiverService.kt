@@ -10,7 +10,7 @@ import android.os.IBinder
 import me.linus.gpstie.GpsLocation
 import me.linus.gpstie.R
 
-class GTClientService: Service() {
+class GPSReceiverService : Service() {
 
     companion object {
         val NOTIFICATION_ID = 101
@@ -76,7 +76,7 @@ class GTClientService: Service() {
 
     override fun onBind(intent: Intent?): IBinder = binder
 
-    class GTClientServiceBinder(val service: GTClientService): Binder() {
+    class GTClientServiceBinder(val service: GPSReceiverService): Binder() {
 
         fun registerListener(listener: GTClient.GTClientListener) {
             service.client.clientListener = listener

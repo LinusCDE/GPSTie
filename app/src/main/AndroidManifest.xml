@@ -24,11 +24,11 @@
         <activity android:name="me.linus.gpstie.gpsreceiver.ActivityGPSReceiver"
             android:configChanges="screenSize|orientation"/>
 
-        <service android:name="me.linus.gpstie.gpsreceiver.GTClientService"
-            android:label="GpsTie - Client-Service" />
+        <service android:name="me.linus.gpstie.gpsreceiver.GPSReceiverService"
+            android:label="GpsTie - Receive-Service" />
 
         <service android:name="me.linus.gpstie.gpssender.GPSSenderService"
-            android:label="GpsTie - Server-Service" />
+            android:label="GpsTie - Send-Service" />
 
     </application>
 
