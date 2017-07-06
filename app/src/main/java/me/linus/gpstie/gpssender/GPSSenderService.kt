@@ -154,10 +154,10 @@ class GPSSenderService: Service() {
     }
 
     fun lockService() {
-        val notifcationBuilder = Notification.Builder(this)
-        notifcationBuilder.setSmallIcon(R.drawable.ic_stat_gpssender)
-        notifcationBuilder.setContentTitle("GPS-Sender")
-        notifcationBuilder.setContentText("Server is running...")
+        val notificationBuilder = Notification.Builder(this)
+        notificationBuilder.setSmallIcon(R.drawable.ic_stat_gpssender)
+        notificationBuilder.setContentTitle("GPS-Sender")
+        notificationBuilder.setContentText("Server is running...")
 
         // Open ActivityGPSSender at click:
         // thanks to https://stackoverflow.com/a/38107532/3949509
@@ -168,10 +168,10 @@ class GPSSenderService: Service() {
 
         val pendingIntent = PendingIntent.getActivity(this, 0, launchIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
-        notifcationBuilder.setContentIntent(pendingIntent)
+        notificationBuilder.setContentIntent(pendingIntent)
         // -------------------------------------
 
-        val notification = notifcationBuilder.build()
+        val notification = notificationBuilder.build()
         startForeground(NOTIFICATION_ID, notification)
     }
 

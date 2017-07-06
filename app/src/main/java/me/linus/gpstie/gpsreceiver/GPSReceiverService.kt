@@ -34,10 +34,10 @@ class GPSReceiverService : Service() {
     var isMockingAvailable = false
 
     fun lockService() {
-        val notifcationBuilder = Notification.Builder(this)
-        notifcationBuilder.setSmallIcon(R.drawable.ic_stat_gpsreceiver)
-        notifcationBuilder.setContentTitle("GPS-Receiver")
-        notifcationBuilder.setContentText("Connected to ${client.connectedToIp}")
+        val notificationBuilder = Notification.Builder(this)
+        notificationBuilder.setSmallIcon(R.drawable.ic_stat_gpsreceiver)
+        notificationBuilder.setContentTitle("GPS-Receiver")
+        notificationBuilder.setContentText("Connected to ${client.connectedToIp}")
 
         // Open ActivityGPSReceiver at click:
         // thanks to https://stackoverflow.com/a/38107532/3949509
@@ -48,10 +48,10 @@ class GPSReceiverService : Service() {
 
         val pendingIntent = PendingIntent.getActivity(this, 0, launchIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT)
-        notifcationBuilder.setContentIntent(pendingIntent)
+        notificationBuilder.setContentIntent(pendingIntent)
         // -------------------------------------
 
-        val notification = notifcationBuilder.build()
+        val notification = notificationBuilder.build()
         startForeground(NOTIFICATION_ID, notification)
     }
 
