@@ -4,7 +4,7 @@ import android.location.Location
 import org.json.JSONObject
 
 /**
- * Data to display in GPSDataFragment
+ * Own implementation of android.location.Location
  */
 class GpsLocation(latitude: Double, longitude: Double, accuracy: Float,
                        altitude: Double, bearing: Float, speed: Float,
@@ -25,6 +25,10 @@ class GpsLocation(latitude: Double, longitude: Double, accuracy: Float,
     }
 
     companion object {
+
+        /**
+         * Copy data of Location into a GpsLocation
+         */
         fun fromLocation(loc: Location): GpsLocation =
                 GpsLocation(
                         latitude = loc.latitude,
@@ -42,6 +46,9 @@ class GpsLocation(latitude: Double, longitude: Double, accuracy: Float,
                         hasSpeed = loc.hasSpeed()
                 )
 
+        /**
+         * Creates GpsLocation from JsonObject
+         */
         fun fromJson(jsonLoc: JSONObject): GpsLocation =
                 GpsLocation(
                         latitude = jsonLoc.getDouble("latitude"),
@@ -58,6 +65,29 @@ class GpsLocation(latitude: Double, longitude: Double, accuracy: Float,
                         hasBearing = jsonLoc.getBoolean("hasBearing"),
                         hasSpeed = jsonLoc.getBoolean("hasSpeed")
                 )
+
+        /**
+         * Creates a JsonObjects from given Location
+         */
+        fun toJson(location: Location): JSONObject {
+            val jsonObj = JSONObject()
+
+            jsonObj.put("latitude", location.latitude)
+            jsonObj.put("longitude", location.longitude)
+            jsonObj.put("accuracy", location.accuracy)
+            jsonObj.put("altitude", location.altitude)
+            jsonObj.put("bearing", location.bearing)
+            jsonObj.put("speed", location.speed)
+            jsonObj.put("provider", location.provider)
+            jsonObj.put("elapsedRealtimeNanos", location.elapsedRealtimeNanos)
+            jsonObj.put("time", location.time)
+            jsonObj.put("hasAccuracy", location.hasAccuracy())
+            jsonObj.put("hasAltitude", location.hasAltitude())
+            jsonObj.put("hasBearing", location.hasBearing())
+            jsonObj.put("hasSpeed", location.hasSpeed())
+
+            return jsonObj
+        }
     }
 
 }

@@ -23,12 +23,12 @@ class GPSSenderService: Service() {
         val NOTIFICATION_ID = 102
     }
 
-    var isBound = false
+    var isBound = false // Is true if any Activity is connected to this Service
 
-    val handler = Handler()
-    val binder = GPSSenderServiceBinder(this)
+    val handler = Handler() // Running actions in another thread
+    val binder = GPSSenderServiceBinder(this) // Binder for activities
 
-    lateinit var gpsApi: GPSSenderServiceGpsApi
+    lateinit var gpsApi: GPSSenderServiceGpsApi // GPS-Api for getting GPS-Locations
 
     var assignableListener: GTServer.GTServerListener? = null // For registering
 
@@ -64,25 +64,24 @@ class GPSSenderService: Service() {
             assignableListener?.onClientDisconnected(clientConnection, server)
             if(server.getClients().isEmpty())
                 handler.post {
-                    gpsApi.gpsEnabled = false // This calls a function.
+                    gpsApi.gpsEnabled = false
                 }
         }
 
     })
 
-    var lastIp: String? = null
+    var lastLocalIp: String? = null // Last know local Ip
 
     val networkActionReceiver = object: BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
             val newIp = getLocalIp()
-            if(lastIp == newIp) return
-            lastIp = newIp
+            if(lastLocalIp == newIp) return
+            lastLocalIp = newIp
 
             if(server.isRunning())
                 server.stop()
         }
-
 
     }
 
@@ -93,6 +92,7 @@ class GPSSenderService: Service() {
 
     override fun onUnbind(intent: Intent?): Boolean {
         isBound = false
+        cleanUp()
         return super.onUnbind(intent)
     }
 
@@ -100,23 +100,42 @@ class GPSSenderService: Service() {
         isBound = true
     }
 
+    /**
+     * Startup-Hook
+     */
     override fun onCreate() {
         super.onCreate()
+
         gpsApi = GPSSenderServiceGpsApi(
                 baseContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager,
                 server)
-        lastIp = getLocalIp()
+        lastLocalIp = getLocalIp()
         registerReceiver(networkActionReceiver,
                 IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
+    /**
+     * Operation-Mode of this Service
+     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int =
-            Service.START_NOT_STICKY
+            Service.START_NOT_STICKY // Do not restart if Service gets destroyed/stopped
 
+    /**
+     * Shutdown-Hook
+     */
     override fun onDestroy() {
         gpsApi.gpsEnabled = false
         server.stop()
         super.onDestroy()
+    }
+
+    /**
+     * Remove everything associated with bound Activties
+     */
+    fun cleanUp() {
+        gpsApi.assignableLocationListener = null
+        gpsApi.assignableLocationReceiver = null
+        assignableListener = null
     }
 
     class GPSSenderServiceBinder(val service: GPSSenderService): Binder() {
@@ -125,24 +144,12 @@ class GPSSenderService: Service() {
             service.gpsApi.assignableLocationReceiver = locationReceiver
         }
         
-        fun unregisterLocationReceiver() {
-            service.gpsApi.assignableLocationReceiver = null
-        }
-        
         fun registerLocationListener(locationListener: LocationListener) {
             service.gpsApi.assignableLocationListener = locationListener
-        }
-        
-        fun unregisterLocationListener() {
-            service.gpsApi.assignableLocationListener = null
         }
 
         fun registerServerListener(serverListener: GTServer.GTServerListener) {
             service.assignableListener = serverListener
-        }
-
-        fun unregisterServerListener() {
-            service.assignableListener = null
         }
 
         fun startServer() = service.server.start()
@@ -153,13 +160,16 @@ class GPSSenderService: Service() {
 
     }
 
+    /**
+     * Locks Service as Foreground-Service
+     */
     fun lockService() {
         val notificationBuilder = Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_gpssender)
                 .setContentTitle("GPS-Sender")
                 .setContentText("Server is running...")
 
-        // Open ActivityGPSSender at click:
+        // Open ActivityGPSSender on click:
         // thanks to https://stackoverflow.com/a/38107532/3949509
         val launchIntent = Intent(this, ActivityGPSSender::class.java)
         launchIntent.action = Intent.ACTION_MAIN
@@ -175,6 +185,9 @@ class GPSSenderService: Service() {
         startForeground(NOTIFICATION_ID, notification)
     }
 
+    /**
+     * Removes Service from foreground
+     */
     fun unlockService() {
         stopForeground(true)
         if(!isBound)

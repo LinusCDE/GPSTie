@@ -15,14 +15,17 @@ class GPSSenderServiceGpsApi(val locationManager: LocationManager,
         val GPS_STATUS_DONT_SEND = -11
     }
 
-    // For registering reserved:
+    // For registering by Activities reserved:
     var assignableLocationReceiver: LocationReceiver? = null
     var assignableLocationListener: LocationListener? = null
+    // ---------------------
 
     // Last state:
     var lastStatus: Int = GPS_STATUS_DONT_SEND
     var lastLocation: Location? = null
+    // ---------------------
 
+    // Internal checks for GPS-Updates in connection with given server instance
     val internalLocationListener = object: LocationListener {
 
         override fun onProviderDisabled(provider: String?) {
@@ -59,6 +62,9 @@ class GPSSenderServiceGpsApi(val locationManager: LocationManager,
 
     }
 
+    /**
+     * (De)Registers internalLocationListener (saves energy when no client connected)
+     */
     var gpsEnabled: Boolean = false
         @SuppressLint("MissingPermission")
         set(value) {

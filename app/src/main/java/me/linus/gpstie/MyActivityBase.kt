@@ -1,9 +1,6 @@
 package me.linus.gpstie
 
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.os.PowerManager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -11,7 +8,6 @@ import android.view.MenuItem
 /**
  * This activity does:
  *  - Creating default menu and using it
- *  - Adding a WakeLock to control sleep state of this activity
  */
 open class MyActivityBase : AppCompatActivity() {
 

@@ -17,12 +17,17 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
         val SELECTION_GPS_SENDER = 2
     }
 
-    lateinit var prefs: SharedPreferences
+    lateinit var prefs: SharedPreferences // Saves selected Activity in case of "Do not ask again"
 
+    // UI-Elements:
     lateinit var uiReceiverBtn: LinearLayout
     lateinit var uiSenderBtn: LinearLayout
     lateinit var uiDontAskAgainCb: CheckBox
+    // --------------------
 
+    /**
+     * UI-Setup and check for selected Activity
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         // Init
         super.onCreate(savedInstanceState)
@@ -58,25 +63,27 @@ class ActivityGPSRoleSelectDialog : AppCompatActivity() {
         }
     }
 
+    /**
+     * Opens ActivityGPSReceiver and saves selection if desired
+     */
     fun selectGpsReceiver() {
         // Set default value if needed
         if(uiDontAskAgainCb.isChecked)
             prefs.edit().apply { putInt("defSelection", SELECTION_GPS_RECEIVER) }.apply()
 
-        // Start new activity
-        startActivity(Intent(this, ActivityGPSReceiver::class.java))
-        // Close this activity
-        finish()
+        startActivity(Intent(this, ActivityGPSReceiver::class.java)) // Start new activity
+        finish() // Close this activity
     }
 
+    /**
+     * Opens ActivityGPSSender and saves selection if desired
+     */
     fun selectGpsSender() {
         // Set default value if needed
         if(uiDontAskAgainCb.isChecked)
             prefs.edit().apply { putInt("defSelection", SELECTION_GPS_SENDER) }.apply()
 
-        // Start new activity
-        startActivity(Intent(this, ActivityGPSSender::class.java))
-        // Close this activity
-        finish()
+        startActivity(Intent(this, ActivityGPSSender::class.java)) // Start new activity
+        finish() // Close this activity
     }
 }

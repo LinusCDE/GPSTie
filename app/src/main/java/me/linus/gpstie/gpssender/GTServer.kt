@@ -2,12 +2,16 @@ package me.linus.gpstie.gpssender
 
 import android.location.Location
 import android.util.Base64
+import me.linus.gpstie.GpsLocation
 import org.json.JSONObject
 import java.net.ServerSocket
 import java.nio.charset.Charset
 
 class GTServer(val serverListener: GTServerListener) {
 
+    /**
+     * Used to monitor state-changes of this Server or any connected clients
+     */
     interface GTServerListener {
         fun onServerStatusChanged(status: String)
         fun onServerStarted()
@@ -17,15 +21,18 @@ class GTServer(val serverListener: GTServerListener) {
     }
 
     companion object {
-        val SERVER_PORT = 46832
+        val SERVER_PORT = 46832 // Default Server-Port
     }
 
-    var serverThread: Thread? = null
-    var serverSocket: ServerSocket? = null
-    val connectedClients = ArrayList<GTConnection>()
+    var serverThread: Thread? = null // Server-Thread (obvious or not? ;) )
+    var serverSocket: ServerSocket? = null // Server-Socket (also obvious)
+    val connectedClients = ArrayList<GTConnection>() // All active connections
 
+    /**
+     * Starts the server
+     */
     fun start() {
-        if(isRunning()) stop() // Making sure, server is not running already
+        if(isRunning()) stop() // Makes sure that the server is not running already
 
         serverThread = Thread {
 
@@ -57,10 +64,16 @@ class GTServer(val serverListener: GTServerListener) {
         }.apply { name = "GpsTie-ServerThread" }.also { it.start() }
     }
 
+    /**
+     * Checks if the Server is running
+     */
     fun isRunning(): Boolean =
     serverThread != null && serverThread!!.isAlive
     && serverSocket != null && !serverSocket!!.isClosed
 
+    /**
+     * Stops the server and makes sure that all connections get shut down
+     */
     fun stop() {
         serverListener.onServerStatusChanged("Stopping Server...")
         for(connection in getClients())
@@ -75,22 +88,12 @@ class GTServer(val serverListener: GTServerListener) {
         serverListener.onServerStopped()
     }
 
+    /**
+     * Creates an Location-Packet and sends it to all clients
+     */
     fun updateLocation(location: Location, singleReceiver: GTConnection? = null) {
-        val jsonObj = JSONObject()
-        jsonObj.put("type", "location") // Packet type
-        jsonObj.put("latitude", location.latitude)
-        jsonObj.put("longitude", location.longitude)
-        jsonObj.put("accuracy", location.accuracy)
-        jsonObj.put("altitude", location.altitude)
-        jsonObj.put("bearing", location.bearing)
-        jsonObj.put("speed", location.speed)
-        jsonObj.put("provider", location.provider)
-        jsonObj.put("elapsedRealtimeNanos", location.elapsedRealtimeNanos)
-        jsonObj.put("time", location.time)
-        jsonObj.put("hasAccuracy", location.hasAccuracy())
-        jsonObj.put("hasAltitude", location.hasAltitude())
-        jsonObj.put("hasBearing", location.hasBearing())
-        jsonObj.put("hasSpeed", location.hasSpeed())
+        val jsonObj = GpsLocation.toJson(location)
+        jsonObj.put("type", "location") // Set packet-type
 
         val packetLine = Base64.encodeToString(
                 jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
@@ -100,6 +103,9 @@ class GTServer(val serverListener: GTServerListener) {
         else
             getClients().forEach { it.send(packetLine) }    }
 
+    /**
+     * Creates a Status-Packet and sends it to all clients
+     */
     fun updateStatus(status: Int, singleReceiver: GTConnection? = null) {
         val jsonObj = JSONObject()
         jsonObj.put("type", "status") // Packet type
@@ -115,12 +121,16 @@ class GTServer(val serverListener: GTServerListener) {
             getClients().forEach { it.send(packetLine) }
     }
 
-    fun updateClientCount() =
-            serverListener.onServerStatusChanged("Running. ${connectedClients.size} " +
-                    "Client(s) connected")
+    /**
+     * Outputs connected-client-count to serverListener
+     */
+    fun updateClientCount() = serverListener.onServerStatusChanged(
+            "Running. ${connectedClients.size} " + "Client(s) connected")
 
-
-    fun getClients(): Array<GTConnection>
-            = connectedClients.toArray(arrayOf<GTConnection>())
+    /**
+     * Returns all connected clients as an Array (prevents Exceptions when removing clients from
+     * list while iterating trough it)
+     */
+    fun getClients(): Array<GTConnection> = connectedClients.toArray(arrayOf<GTConnection>())
 
 }

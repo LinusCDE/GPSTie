@@ -15,5 +15,5 @@ fun getLocalIp(): String? {
                     return ipAddress.hostAddress
     }
 
-    return null // =  No WiFi connected or no (detected) AP active
+    return null // = No WiFi connected or no (detected) AP active
 }

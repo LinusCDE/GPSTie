@@ -115,10 +115,12 @@ class ActivityGPSSender: MyActivityBase() {
 
         }
 
-        // Check if app has GPS-Permission
-        checkGpsPermission()
+        checkGpsPermission() // Check if app has GPS-Permission
     }
 
+    /**
+     * Loads a fragment into gt_gs_gps_data (FrameHolder)
+     */
     fun loadFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -174,7 +176,7 @@ class ActivityGPSSender: MyActivityBase() {
     }
 
     /**
-     * Check if GPS-Permission is given
+     * Checks if GPS-Permission is granted and requests it if not
      */
     fun checkGpsPermission() {
         val gpsPermStr: String = Manifest.permission.ACCESS_FINE_LOCATION
@@ -194,6 +196,9 @@ class ActivityGPSSender: MyActivityBase() {
         }
     }
 
+    /**
+     * Called if user has decided whether to give this App GPS-Permissions
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
         if(requestCode == REQUEST_CODE_GPS_PERM){
@@ -220,6 +225,9 @@ class ActivityGPSSender: MyActivityBase() {
         dialogBuilder.show()
     }
 
+    /**
+     * Shows Dialog which complains about missing/disabled GPS.
+     */
     fun showDialogGpsMissing() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setTitle(R.string.gt_gs_title_gps_missing)
@@ -231,14 +239,15 @@ class ActivityGPSSender: MyActivityBase() {
         dialogBuilder.show()
     }
 
+    /**
+     * Shutdown-Hook:
+     * - Unbinds Service
+     * - Unregisters networkActionReceiver
+     */
     override fun onDestroy() {
         unregisterReceiver(networkActionReciver)
 
         if(binder == null) return
-
-        binder!!.unregisterLocationListener()
-        binder!!.unregisterLocationReceiver()
-        binder!!.unregisterServerListener()
 
         if(!binder!!.service.server.isRunning())
             stopService(Intent(this, GPSSenderService::class.java))

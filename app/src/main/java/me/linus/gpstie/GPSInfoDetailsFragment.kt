@@ -8,12 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import me.linus.gpstie.GpsLocation
-import me.linus.gpstie.LocationReceiver
-import me.linus.gpstie.R
 
 class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
 
+    // UI-Elements:
     lateinit var uiGpsLatitude: TextView
     lateinit var uiGpsLongitude: TextView
     lateinit var uiGpsAccuracy: TextView
@@ -24,7 +22,11 @@ class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
     lateinit var uiGpsElaspedRealtimeMillis: TextView
     lateinit var uiGpsTime: TextView
     lateinit var uiGpsStatus: TextView
+    // --------------------
 
+    /**
+     * Creates this Fragment and loads UI-Elements
+     */
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if(inflater == null) return null
 
@@ -44,6 +46,9 @@ class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
         return fragView
     }
 
+    /**
+     * Shows new Location
+     */
     override fun updateLocation(location: Location) {
         activity?.runOnUiThread {
 
@@ -61,6 +66,9 @@ class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
         }
     }
 
+    /**
+     * Resets Location
+     */
     override fun resetLocation() {
         activity?.runOnUiThread {
             val none = resources.getString(R.string.no_value)
@@ -77,6 +85,9 @@ class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
         }
     }
 
+    /**
+     * Shows current Status
+     */
     override fun updateStatus(status: Int) {
         activity?.runOnUiThread {
             uiGpsStatus.text = when (status) {
@@ -91,6 +102,9 @@ class GPSInfoDetailsFragment : Fragment(), LocationReceiver {
         }
     }
 
+    /**
+     * Resets Status
+     */
     override fun resetStatus() {
         activity?.runOnUiThread { uiGpsStatus.setText(R.string.no_value) }
     }

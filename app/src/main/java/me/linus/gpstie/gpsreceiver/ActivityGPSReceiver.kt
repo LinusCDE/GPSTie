@@ -16,13 +16,15 @@ import me.linus.gpstie.GPSInfoDetailsFragment
 
 class ActivityGPSReceiver: MyActivityBase() {
 
+    // UI-Elements:
     lateinit var uiAddress: EditText
     lateinit var uiConnectDisconnect: ToggleButton
     lateinit var uiStatus: TextView
+    // --------------------
 
-    lateinit var prefs: SharedPreferences
+    lateinit var prefs: SharedPreferences // To save content of the uiAddress-TextBox
 
-    var gpsLocationReceiver: LocationReceiver? = null
+    var gpsLocationReceiver: LocationReceiver? = null // Will initialized with a Fragment
 
     val clientListener = object: GTClient.GTClientListener {
 
@@ -36,9 +38,6 @@ class ActivityGPSReceiver: MyActivityBase() {
         override fun onClientConnected() =
                 runOnUiThread {
                     uiConnectDisconnect.isChecked = true
-                    serviceBinder?.service?.mockProvider?.setEnabled(true)
-                    //wakeLock.acquire()
-                    serviceBinder?.service?.lockService()
                 }
 
         override fun onClientDisconnected() =
@@ -47,14 +46,6 @@ class ActivityGPSReceiver: MyActivityBase() {
                     uiConnectDisconnect.isChecked = false
                     gpsLocationReceiver?.resetLocation()
                     gpsLocationReceiver?.resetStatus()
-                    serviceBinder?.service?.mockProvider?.setEnabled(false)
-                    //try {
-                    //    wakeLock.release()
-                    //}catch (e: Exception) {
-                        // Occurs when connection failed
-                        // So die WakeLock got never acquired but was released
-                    //}
-                    serviceBinder?.service?.unlockService()
                 }
 
         override fun onClientStatusChanged(status: String) =
@@ -63,12 +54,10 @@ class ActivityGPSReceiver: MyActivityBase() {
         override fun onLocationReceived(location: GpsLocation) =
                 runOnUiThread {
                     gpsLocationReceiver?.updateLocation(location)
-                    serviceBinder?.service?.mockProvider?.updateLocation(location)
                 }
 
         override fun onGpsStatusChanged(status: Int, time: Long) =
                 runOnUiThread {
-                    serviceBinder?.service?.mockProvider?.updateStatus(status, time)
                     gpsLocationReceiver?.updateStatus(status)
                 }
 
@@ -98,21 +87,25 @@ class ActivityGPSReceiver: MyActivityBase() {
 
     }
 
+    /**
+     * Inits UI and connects/starts the GPSReceiverService
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.gt_gpsreceiver_layout)
+        setContentView(R.layout.gt_gpsreceiver_layout) // Load layout
 
-        prefs = getPreferences(Context.MODE_PRIVATE)
+        prefs = getPreferences(Context.MODE_PRIVATE) // Load preferences
 
-        setTitle(R.string.gt_gr_title_app_name)
+        setTitle(R.string.gt_gr_title_app_name) // Set title of App
 
+        // Get UI-Elements:
         uiAddress = findViewById(R.id.gt_gr_address) as EditText
         uiConnectDisconnect = findViewById(R.id.gt_gr_connect_disconnect) as ToggleButton
         uiStatus = findViewById(R.id.gt_gr_status) as TextView
 
-        uiAddress.setText(prefs.getString("address", ""))
-
+        // Setup UI-Elements:
+        uiAddress.setText(prefs.getString("address", "")) // Reads saved address in prefs
         uiConnectDisconnect.setOnClickListener {
 
             when(uiConnectDisconnect.isChecked) {
@@ -122,14 +115,19 @@ class ActivityGPSReceiver: MyActivityBase() {
 
         }
 
+        // Load GPS-Details-Fragment:
         gpsLocationReceiver = GPSInfoDetailsFragment()
         loadFragment(gpsLocationReceiver as Fragment)
 
+        // Create, start and bind to Service:
         val service = Intent(this, GPSReceiverService::class.java)
         startService(service)
         bindService(service, connection, Context.BIND_IMPORTANT)
     }
 
+    /**
+     * Loads a Fragment into gt_gr_gps_data (FrameHolder)
+     */
     fun loadFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -137,6 +135,9 @@ class ActivityGPSReceiver: MyActivityBase() {
         fragmentTransaction.commit()
     }
 
+    /**
+     * Shown when App cant mock the location
+     */
     fun showDialogAllowMocking() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setTitle(R.string.gt_gr_title_mocking)
@@ -149,9 +150,12 @@ class ActivityGPSReceiver: MyActivityBase() {
         dialogBuilder.show()
     }
 
+    /**
+     * Shutdown-Hook
+     * - Unbinds from Service
+     */
     override fun onDestroy() {
         unbindService(connection)
-
         super.onDestroy()
     }
 

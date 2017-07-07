@@ -4,11 +4,14 @@ import me.linus.gpstie.AsyncExecutor
 import java.net.Socket
 import java.nio.charset.Charset
 
+/**
+ * Handles connected clients
+ */
 class GTConnection(val gtServer: GTServer, val client: Socket) {
 
-    val writer = client.getOutputStream().bufferedWriter(Charset.forName("UTF-8"))
-    val clientInputThread: Thread
-    val executor = AsyncExecutor(threadName = "GT-Server-Connection-Writer")
+    val outputStreamWriter = client.getOutputStream().bufferedWriter(Charset.forName("UTF-8"))
+    val clientInputThread: Thread // Thread that reads Pings from the Client
+    val executor = AsyncExecutor(threadName = "GT-Server-Connection-Writer") // Handles sending
 
     init {
         client.soTimeout = 30000 // = Timeout of 30 seconds
@@ -25,9 +28,12 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
                 e.printStackTrace()
                 disconnect()
             }
-        }.apply { name = "GpsTie-Server-ClientInputThread" } .also { it.start() }
+        }.apply { name = "GpsTie-Server-ClientInputThread" } .also { it.start() } // Setup Thread
     }
 
+    /**
+     * Disconnects from client, closes the Thread and informs the serverListener about the event
+     */
     fun disconnect() {
         gtServer.connectedClients.remove(this)
         gtServer.updateClientCount()
@@ -37,12 +43,17 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
         executor.close()
     }
 
+    /**
+     * Sends raw message to the client which should be (but not checked) a Base64-String
+     */
     fun send(message: String) {
         executor.execute {
             try {
-                writer.write(message)
-                writer.newLine()
-                writer.flush() // If executed in Main-Thread an exception will be thrown
+                outputStreamWriter.run {
+                    write(message)
+                    newLine()
+                    flush() // If executed in Main-Thread an exception will be thrown
+                }
             } catch (e: Exception) {
                 e.printStackTrace()
                 disconnect()
