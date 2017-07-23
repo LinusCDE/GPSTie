@@ -98,10 +98,8 @@ class GTServer(val serverListener: GTServerListener) {
         val packetLine = Base64.encodeToString(
                 jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
 
-        if(singleReceiver != null)
-            singleReceiver.send(packetLine)
-        else
-            getClients().forEach { it.send(packetLine) }    }
+        singleReceiver?.send(packetLine) ?: getClients().forEach { it.send(packetLine) }
+    }
 
     /**
      * Creates a Status-Packet and sends it to all clients
@@ -115,10 +113,7 @@ class GTServer(val serverListener: GTServerListener) {
         val packetLine = Base64.encodeToString(
                 jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
 
-        if(singleReceiver != null)
-            singleReceiver.send(packetLine)
-        else
-            getClients().forEach { it.send(packetLine) }
+        singleReceiver?.send(packetLine) ?: getClients().forEach { it.send(packetLine) }
     }
 
     /**
