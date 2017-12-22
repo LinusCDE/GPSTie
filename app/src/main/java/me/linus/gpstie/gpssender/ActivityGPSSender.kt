@@ -245,9 +245,16 @@ class ActivityGPSSender: MyActivityBase() {
      * - Unregisters networkActionReceiver
      */
     override fun onDestroy() {
-        unregisterReceiver(networkActionReciver)
+        try {
+            unregisterReceiver(networkActionReciver)
+        } catch(ignored: IllegalArgumentException) {
+            // Could not be registered in the first place because the user denied gps permission.
+        }
 
-        if(binder == null) return
+        if(binder == null) {
+            super.onDestroy()
+            return
+        }
 
         if(!binder!!.service.server.isRunning())
             stopService(Intent(this, GPSSenderService::class.java))
