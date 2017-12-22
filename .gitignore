@@ -10,3 +10,4 @@
 /app/release/*
 inkscape_drawings/*
 /app-keystore.jks
+.idea
