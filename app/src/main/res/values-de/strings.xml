@@ -10,6 +10,11 @@
     <string name="gt_grs_button_gpsreceive">GPS empfangen</string>
     <string name="gt_grs_checkbox_dontaskagain">Nicht erneut fragen</string>
 
+    <!-- Data Protection buttons -->
+    <string name="gt_grs_data_privacy_title">Datenschutzerklärung</string>
+    <string name="gt_grs_data_privacy_button_agree">Ich akzeptiere</string>
+    <string name="gt_grs_data_privacy_button_quit_app">Beenden</string>
+
     <!-- GPSReceiver-Layout -->
     <string name="gt_gr_title_app_name">GPS-Receiver</string>
     <string name="gt_gr_title_client">Verbinden:</string>
@@ -64,9 +69,18 @@
         Damit du deinen Standort teilen kannst, muss die App rechte für das GPS haben!</string>
     <string name="gt_gs_button_nogpsperms">Ok</string>
 
+    <string name="gt_gs_info_starting">Starte…</string>
+    <string name="gt_gs_info_connection_amount_none">Bereit. Warte auf Verbindungen…</string>
+    <plurals name="gt_gs_info_connection_amount">
+        <item quantity="one">Teile position mit <b>einem Gerät</b>.</item>
+        <item quantity="other">Teile position mit <b>%d Geräten</b>.</item>
+    </plurals>
+    <string name="gt_gs_info_stopping">Stopping GPS sharing…</string>
+    <string name="gt_gs_info_stopped">GPS sharing stopped</string>
+
     <!-- GPSInfo-Details-Layout -->
-    <string name="gt_gpsinfo_details_label_latitude">Breite:</string>
-    <string name="gt_gpsinfo_details_label_longitude">Länge:</string>
+    <string name="gt_gpsinfo_details_label_latitude">Breitengrad:</string>
+    <string name="gt_gpsinfo_details_label_longitude">Längengrad:</string>
     <string name="gt_gpsinfo_details_label_accuracy">Genauigkeit:</string>
     <string name="gt_gpsinfo_details_label_altitude">Höhe:</string>
     <string name="gt_gpsinfo_details_label_bearing">Peilung:</string>

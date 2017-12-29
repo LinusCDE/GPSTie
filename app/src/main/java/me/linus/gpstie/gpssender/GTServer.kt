@@ -2,6 +2,7 @@ package me.linus.gpstie.gpssender
 
 import android.location.Location
 import me.linus.gpstie.GpsLocation
+import me.linus.gpstie.R
 import org.json.JSONObject
 import java.net.ServerSocket
 
@@ -11,7 +12,8 @@ class GTServer(val serverListener: GTServerListener) {
      * Used to monitor state-changes of this Server or any connected clients
      */
     interface GTServerListener {
-        fun onServerStatusChanged(status: String)
+        fun onServerStatusChanged(statusResId: Int)
+        fun onServerStatusChanged(statusResId: Int, quantity: Int)
         fun onServerStarted()
         fun onServerStopped()
         fun onClientConnected(clientConnection: GTConnection, server: GTServer)
@@ -35,12 +37,12 @@ class GTServer(val serverListener: GTServerListener) {
         serverThread = Thread {
 
             try {
-                serverListener.onServerStatusChanged("Starting...")
+                serverListener.onServerStatusChanged(R.string.gt_gs_info_starting)
                 //System.setProperty("javax.net.ssl.keyStore", "keystore")
                 //System.setProperty("javax.net.ssl.keyStorePassword", "password")
                 serverSocket = ServerSocket(SERVER_PORT)
 
-                serverListener.onServerStatusChanged("Running. Waiting for clients...")
+                serverListener.onServerStatusChanged(R.string.gt_gs_info_connection_amount_none)
                 serverListener.onServerStarted()
 
                 while (true) {
@@ -50,16 +52,18 @@ class GTServer(val serverListener: GTServerListener) {
                         return@Thread
                     }
 
-                    val connection = GTConnection(this, socket)
-                    connectedClients.add(connection)
-                    updateClientCount()
-                    serverListener.onClientConnected(connection, this)
+                    try {
+                        val connection = GTConnection(this, socket)
+                        connectedClients.add(connection)
+                        updateClientCount()
+                        serverListener.onClientConnected(connection, this)
+                    } catch(ignored: Exception) {}
                 }
 
             }catch(e: Exception){
                 stop()
                 e.printStackTrace()
-                serverListener.onServerStatusChanged("Server stopped.")
+                serverListener.onServerStatusChanged(R.string.gt_gs_info_stopped)
             }
         }.apply { name = "GpsTie-ServerThread" }.also { it.start() }
     }
@@ -75,7 +79,7 @@ class GTServer(val serverListener: GTServerListener) {
      * Stops the server and makes sure that all connections get shut down
      */
     fun stop() {
-        serverListener.onServerStatusChanged("Stopping Server...")
+        serverListener.onServerStatusChanged(R.string.gt_gs_info_stopping)
         for(connection in getClients())
             connection.disconnect()
         serverSocket?.close()
@@ -84,7 +88,7 @@ class GTServer(val serverListener: GTServerListener) {
                 serverThread?.stop()
         }catch(e: Exception) { }
         connectedClients.clear()
-        serverListener.onServerStatusChanged("Server stopped.")
+        serverListener.onServerStatusChanged(R.string.gt_gs_info_stopped)
         serverListener.onServerStopped()
     }
 
@@ -115,8 +119,14 @@ class GTServer(val serverListener: GTServerListener) {
     /**
      * Outputs connected-client-count to serverListener
      */
-    fun updateClientCount() = serverListener.onServerStatusChanged(
-            "Running. ${connectedClients.size} " + "Client(s) connected")
+    fun updateClientCount() {
+        val amount = connectedClients.size
+        if(amount == 0)
+            serverListener.onServerStatusChanged(R.string.gt_gs_info_connection_amount_none)
+        else
+            serverListener.onServerStatusChanged(
+                    R.plurals.gt_gs_info_connection_amount, connectedClients.size)
+    }
 
     /**
      * Returns all connected clients as an Array (prevents Exceptions when removing clients from

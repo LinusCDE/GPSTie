@@ -25,8 +25,8 @@ class GPSReceiverService : Service() {
 
     val client: GTClient = GTClient(object: GTClient.GTClientListener {
 
-        override fun onClientStatusChanged(status: String) {
-            assignableClientListener?.onClientStatusChanged(status)
+        override fun onClientStatusChanged(statusResId: Int) {
+            assignableClientListener?.onClientStatusChanged(statusResId)
         }
         override fun onClientConnecting() {
             assignableClientListener?.onClientConnecting()

@@ -33,8 +33,12 @@ class GPSSenderService: Service() {
     var assignableListener: GTServer.GTServerListener? = null // For registering
 
     val server = GTServer(object: GTServer.GTServerListener {
-        override fun onServerStatusChanged(status: String) {
-            assignableListener?.onServerStatusChanged(status)
+        override fun onServerStatusChanged(statusResId: Int) {
+            assignableListener?.onServerStatusChanged(statusResId)
+        }
+
+        override fun onServerStatusChanged(statusResId: Int, quantity: Int) {
+            assignableListener?.onServerStatusChanged(statusResId, quantity)
         }
 
         override fun onServerStarted() {

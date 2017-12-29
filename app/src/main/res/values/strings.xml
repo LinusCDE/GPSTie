@@ -10,6 +10,12 @@
     <string name="gt_grs_button_gpsreceive">Receive GPS</string>
     <string name="gt_grs_checkbox_dontaskagain">Don\'t ask again</string>
 
+    <!-- Data Protection buttons -->
+    <string name="gt_grs_data_privacy_title">Privacy policy</string>
+    <string name="gt_grs_data_privacy_button_agree">I agree</string>
+    <string name="gt_grs_data_privacy_button_quit_app">Quit</string>
+
+
     <!-- GPSReceiver-Layout -->
     <string name="gt_gr_title_app_name">GPS-Receiver</string>
     <string name="gt_gr_title_client">Connect:</string>
@@ -17,6 +23,12 @@
     <string name="gt_gr_button_connect">Connect</string>
     <string name="gt_gr_button_disconnect">Disconnect</string>
     <string name="gt_gr_label_client_state">Status:</string>
+
+    <string name="gt_gr_info_connecting">Connecting…</string>
+    <string name="gt_gr_info_connected">Connected</string>
+    <string name="gt_gr_info_connected_receiving_data">Connected. Receiving data…</string>
+    <string name="gt_gr_info_disconnected">Disconnected</string>
+
 
     <string name="gt_gr_title_gps_state">GPS-State:</string>
 
@@ -62,6 +74,15 @@
         In order to share your location, this App needs permission to use your GPS!</string>
     <string name="gt_gs_button_nogpsperms">Ok</string>
 
+    <string name="gt_gs_info_starting">Starting…</string>
+    <string name="gt_gs_info_connection_amount_none">Ready. Waiting for clients…</string>
+    <plurals name="gt_gs_info_connection_amount">
+        <item quantity="one">Sharing location with <b>one device</b>.</item>
+        <item quantity="other">Sharing location with <b>%d devices</b>.</item>
+    </plurals>
+    <string name="gt_gs_info_stopping">Stopping GPS sharing…</string>
+    <string name="gt_gs_info_stopped">GPS sharing stopped</string>
+
     <!-- GPSInfo-Details-Layout -->
     <string name="gt_gpsinfo_details_label_latitude">Latitude:</string>
     <string name="gt_gpsinfo_details_label_longitude">Longitude:</string>
@@ -83,6 +104,5 @@
 
     <!-- Menu -->
     <string name="gt_menu_default_label_change_mode">Change mode</string>
-
 
 </resources>

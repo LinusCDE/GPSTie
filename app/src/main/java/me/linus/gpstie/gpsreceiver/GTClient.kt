@@ -1,6 +1,7 @@
 package me.linus.gpstie.gpsreceiver
 
 import me.linus.gpstie.GpsLocation
+import me.linus.gpstie.R
 import me.linus.gpstie.decryptText
 import me.linus.gpstie.generateSecretKey
 import me.linus.gpstie.gpssender.GTServer
@@ -20,7 +21,7 @@ class GTClient(val clientListener: GTClientListener) {
      * Used to monitor state-changes of this client
      */
     interface GTClientListener {
-        fun onClientStatusChanged(status: String)
+        fun onClientStatusChanged(statusResId: Int)
         fun onGpsStatusChanged(status: Int, time: Long)
         fun onLocationReceived(location: GpsLocation)
         fun onClientConnecting()
@@ -41,7 +42,7 @@ class GTClient(val clientListener: GTClientListener) {
 
         // Output information to listener:
         clientListener.onClientConnecting()
-        clientListener.onClientStatusChanged("Connecting...")
+        clientListener.onClientStatusChanged(R.string.gt_gr_info_connecting)
 
         // Create clientMainThread to handle connection and incoming data:
         clientMainThread = Thread {
@@ -54,7 +55,7 @@ class GTClient(val clientListener: GTClientListener) {
                 // be thrown)
 
                 // Output information to listener:
-                clientListener.onClientStatusChanged("Connected.")
+                clientListener.onClientStatusChanged(R.string.gt_gr_info_connected)
                 clientListener.onClientConnected()
 
                 // Create clientPingingThread to keep the connection alive:
@@ -88,7 +89,8 @@ class GTClient(val clientListener: GTClientListener) {
                     val jsonString = decryptText(inputStreamReader.readLine(), secretKey)
 
                     // Output information to listener:
-                    clientListener.onClientStatusChanged("Connected. Receiving Data...")
+                    clientListener.onClientStatusChanged(
+                            R.string.gt_gr_info_connected_receiving_data)
 
                     val json = JSONObject(jsonString) // Create JSON-Object
 
@@ -105,7 +107,6 @@ class GTClient(val clientListener: GTClientListener) {
             }catch (e: Exception) {
                 // Connection failed / closed / etc.
                 e.printStackTrace()
-                clientListener.onClientStatusChanged("Connection failed: ${e.message}")
                 disconnect()
             }
 
@@ -135,7 +136,7 @@ class GTClient(val clientListener: GTClientListener) {
         clientMainThread = null
         clientPingingThread = null
         clientListener.onClientDisconnected()
-        clientListener.onClientStatusChanged("Disconnected")
+        clientListener.onClientStatusChanged(R.string.gt_gr_info_disconnected)
     }
 
     /**

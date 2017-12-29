@@ -48,8 +48,8 @@ class ActivityGPSReceiver: MyActivityBase() {
                     gpsLocationReceiver?.resetStatus()
                 }
 
-        override fun onClientStatusChanged(status: String) =
-                runOnUiThread { uiStatus.text = status }
+        override fun onClientStatusChanged(statusResId: Int) =
+                runOnUiThread { uiStatus.setText(statusResId) }
 
         override fun onLocationReceived(location: GpsLocation) =
                 runOnUiThread {

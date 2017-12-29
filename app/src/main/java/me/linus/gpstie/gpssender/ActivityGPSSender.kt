@@ -58,8 +58,13 @@ class ActivityGPSSender: MyActivityBase() {
 
     val serverListener = object: GTServer.GTServerListener {
 
-        override fun onServerStatusChanged(status: String) =
-                runOnUiThread { uiServerStatus.text = status }
+        override fun onServerStatusChanged(statusResId: Int) =
+                runOnUiThread { uiServerStatus.setText(statusResId) }
+
+        override fun onServerStatusChanged(statusResId: Int, quantity: Int) =
+                runOnUiThread {
+                    uiServerStatus.text = resources.getQuantityText(statusResId, quantity)
+                }
 
         override fun onServerStarted() =
                 runOnUiThread { uiServerStartStop.isChecked = true }
