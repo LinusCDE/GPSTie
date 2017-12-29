@@ -35,7 +35,7 @@
     <string name="gt_gr_title_mocking">Allow Mock-Locations</string>
     <string name="gt_gr_message_mocking">
         If you want other Apps (except G-Maps on some phones) to show this location, you have to
-        permit Mock/Pseudo/Fake-Locations for this App which isn't a ordinary permission.\n\n
+        permit Mock/Pseudo/Fake-Locations for this App which isn\'t a ordinary permission.\n\n
         To permit this, go to <i>Android-Settings » About phone</i> and click the <b>Build number</b>
         till a message appears saying that you\'re now a Developer.\n
         After that go to the new Entry <b>Developer options</b> (usually above \"About phone\") in
