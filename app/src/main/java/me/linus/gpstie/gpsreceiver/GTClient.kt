@@ -1,12 +1,15 @@
 package me.linus.gpstie.gpsreceiver
 
-import android.util.Base64
 import me.linus.gpstie.GpsLocation
+import me.linus.gpstie.decryptText
+import me.linus.gpstie.generateSecretKey
 import me.linus.gpstie.gpssender.GTServer
 import org.json.JSONObject
 import java.net.Inet4Address
 import java.net.Socket
 import java.nio.charset.Charset
+import javax.crypto.SecretKey
+
 
 /**
  * Connects to a server and receives location-updates using an interface
@@ -28,6 +31,7 @@ class GTClient(val clientListener: GTClientListener) {
     var client: Socket? = null // Connection to server
     var clientMainThread: Thread? = null // Thread that connects to the server and receives data
     var clientPingingThread: Thread? = null // Thread that sends a ping to keep connection alive
+    lateinit var secretKey: SecretKey
 
     /**
      * Establishes connection to given IP
@@ -45,6 +49,7 @@ class GTClient(val clientListener: GTClientListener) {
             try{
                 // Create socket
                 client = Socket(ip, port)
+                secretKey = generateSecretKey(client!!)
                 // At this point, the connection should have succeeded (if not, and Exception would
                 // be thrown)
 
@@ -79,20 +84,13 @@ class GTClient(val clientListener: GTClientListener) {
                         bufferedReader(Charset.forName("UTF-8"))
 
                 // Loop to read incoming data:
-                while(true) { // "(line = [...].readLine()) != null" no more possible in Kotlin
-                    val line = inputStreamReader.readLine() // Receives a Base64-String
-
-                    if(line == null) { // Disconnect if no more input to read
-                        disconnect(); return@Thread
-                    }
+                while(true) {
+                    val jsonString = decryptText(inputStreamReader.readLine(), secretKey)
 
                     // Output information to listener:
                     clientListener.onClientStatusChanged("Connected. Receiving Data...")
 
-                    // Decode Base64-String (line)
-                    val jsonStr = String(
-                            Base64.decode(line, Base64.NO_WRAP), Charset.forName("UTF-8"))
-                    val json = JSONObject(jsonStr) // Create JSON-Object
+                    val json = JSONObject(jsonString) // Create JSON-Object
 
                     // Check packet-type which was received:
                     when(json.getString("type")) {
@@ -106,6 +104,7 @@ class GTClient(val clientListener: GTClientListener) {
 
             }catch (e: Exception) {
                 // Connection failed / closed / etc.
+                e.printStackTrace()
                 clientListener.onClientStatusChanged("Connection failed: ${e.message}")
                 disconnect()
             }

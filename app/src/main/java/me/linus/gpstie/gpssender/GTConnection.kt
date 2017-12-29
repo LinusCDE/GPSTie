@@ -1,8 +1,11 @@
 package me.linus.gpstie.gpssender
 
 import me.linus.gpstie.AsyncExecutor
+import me.linus.gpstie.encryptText
+import me.linus.gpstie.receiveSecretAESKey
 import java.net.Socket
 import java.nio.charset.Charset
+import javax.crypto.SecretKey
 
 /**
  * Handles connected clients
@@ -12,9 +15,11 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
     val outputStreamWriter = client.getOutputStream().bufferedWriter(Charset.forName("UTF-8"))
     val clientInputThread: Thread // Thread that reads Pings from the Client
     val executor = AsyncExecutor(threadName = "GT-Server-Connection-Writer") // Handles sending
+    val secretKey: SecretKey
 
     init {
         client.soTimeout = 30000 // = Timeout of 30 seconds
+        secretKey = receiveSecretAESKey(client)
 
         clientInputThread = Thread {
             try {
@@ -44,13 +49,13 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
     }
 
     /**
-     * Sends raw message to the client which should be (but not checked) a Base64-String
+     * Sends raw message to the client which should be a json string
      */
     fun send(message: String) {
         executor.execute {
             try {
                 outputStreamWriter.run {
-                    write(message)
+                    write(encryptText(message, secretKey))
                     newLine()
                     flush() // If executed in Main-Thread an exception will be thrown
                 }

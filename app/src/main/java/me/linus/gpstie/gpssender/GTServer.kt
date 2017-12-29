@@ -1,11 +1,9 @@
 package me.linus.gpstie.gpssender
 
 import android.location.Location
-import android.util.Base64
 import me.linus.gpstie.GpsLocation
 import org.json.JSONObject
 import java.net.ServerSocket
-import java.nio.charset.Charset
 
 class GTServer(val serverListener: GTServerListener) {
 
@@ -38,7 +36,8 @@ class GTServer(val serverListener: GTServerListener) {
 
             try {
                 serverListener.onServerStatusChanged("Starting...")
-
+                //System.setProperty("javax.net.ssl.keyStore", "keystore")
+                //System.setProperty("javax.net.ssl.keyStorePassword", "password")
                 serverSocket = ServerSocket(SERVER_PORT)
 
                 serverListener.onServerStatusChanged("Running. Waiting for clients...")
@@ -50,6 +49,7 @@ class GTServer(val serverListener: GTServerListener) {
                         serverSocket?.close()
                         return@Thread
                     }
+
                     val connection = GTConnection(this, socket)
                     connectedClients.add(connection)
                     updateClientCount()
@@ -95,10 +95,8 @@ class GTServer(val serverListener: GTServerListener) {
         val jsonObj = GpsLocation.toJson(location)
         jsonObj.put("type", "location") // Set packet-type
 
-        val packetLine = Base64.encodeToString(
-                jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
-
-        singleReceiver?.send(packetLine) ?: getClients().forEach { it.send(packetLine) }
+        val jsonString = jsonObj.toString()
+        singleReceiver?.send(jsonString) ?: getClients().forEach { it.send(jsonString) }
     }
 
     /**
@@ -110,10 +108,8 @@ class GTServer(val serverListener: GTServerListener) {
         jsonObj.put("status", status)
         jsonObj.put("time", System.currentTimeMillis())
 
-        val packetLine = Base64.encodeToString(
-                jsonObj.toString().toByteArray(Charset.forName("UTF-8")), Base64.NO_WRAP)
-
-        singleReceiver?.send(packetLine) ?: getClients().forEach { it.send(packetLine) }
+        val jsonString = jsonObj.toString()
+        singleReceiver?.send(jsonString) ?: getClients().forEach { it.send(jsonString) }
     }
 
     /**
