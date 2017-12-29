@@ -29,7 +29,6 @@
     <string name="gt_gr_info_connected_receiving_data">Connected. Receiving data…</string>
     <string name="gt_gr_info_disconnected">Disconnected</string>
 
-
     <string name="gt_gr_title_gps_state">GPS-State:</string>
 
     <!-- GPSReceiver-EnableMocking-Dialog -->

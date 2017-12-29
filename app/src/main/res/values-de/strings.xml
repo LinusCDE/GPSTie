@@ -23,6 +23,11 @@
     <string name="gt_gr_button_disconnect">Trennen</string>
     <string name="gt_gr_label_client_state">Status:</string>
 
+    <string name="gt_gr_info_connecting">Verbinde…</string>
+    <string name="gt_gr_info_connected">Verbunden</string>
+    <string name="gt_gr_info_connected_receiving_data">Verbunden. Empfange Daten…</string>
+    <string name="gt_gr_info_disconnected">Verbindung getrennt</string>
+
     <string name="gt_gr_title_gps_state">GPS-Status:</string>
 
     <!-- GPSReceiver-EnableMocking-Dialog -->
@@ -75,8 +80,8 @@
         <item quantity="one">Teile position mit <b>einem Gerät</b>.</item>
         <item quantity="other">Teile position mit <b>%d Geräten</b>.</item>
     </plurals>
-    <string name="gt_gs_info_stopping">Stopping GPS sharing…</string>
-    <string name="gt_gs_info_stopped">GPS sharing stopped</string>
+    <string name="gt_gs_info_stopping">Stoppe GPS teilen…</string>
+    <string name="gt_gs_info_stopped">Teilen gestoppt</string>
 
     <!-- GPSInfo-Details-Layout -->
     <string name="gt_gpsinfo_details_label_latitude">Breitengrad:</string>
