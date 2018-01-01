@@ -37,6 +37,10 @@ class GPSReceiverService : Service() {
             mockProvider?.updateStatus(status, time)
         }
 
+        override fun onIncompatibility(messageResId: Int) {
+            assignableClientListener?.onIncompatibility(messageResId)
+        }
+
         override fun onLocationReceived(location: GpsLocation) {
             assignableClientListener?.onLocationReceived(location)
             mockProvider?.updateLocation(location)

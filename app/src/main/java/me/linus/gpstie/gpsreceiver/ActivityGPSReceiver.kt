@@ -40,6 +40,19 @@ class ActivityGPSReceiver: MyActivityBase() {
                     uiConnectDisconnect.isChecked = true
                 }
 
+        override fun onIncompatibility(messageResId: Int) {
+            runOnUiThread {
+                val builder = AlertDialog.Builder(this@ActivityGPSReceiver)
+
+                builder.setTitle(R.string.gt_gr_info_incompatible_title)
+                builder.setMessage(messageResId)
+                builder.setNeutralButton(R.string.basic_ok, null)
+                builder.setCancelable(true)
+
+                builder.show()
+            }
+        }
+
         override fun onClientDisconnected() =
                 runOnUiThread {
                     uiAddress.isEnabled = true
@@ -142,7 +155,7 @@ class ActivityGPSReceiver: MyActivityBase() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setTitle(R.string.gt_gr_title_mocking)
         dialogBuilder.setMessage(R.string.gt_gr_message_mocking)
-        dialogBuilder.setNeutralButton(R.string.gt_gr_button_mocking_ok,
+        dialogBuilder.setNeutralButton(R.string.basic_ok,
                 {_, _ ->
                     stopService(Intent(this, GPSReceiverService::class.java))
                     returnToMainActivity() })

@@ -1,11 +1,10 @@
 package me.linus.gpstie.gpsreceiver
 
-import me.linus.gpstie.GpsLocation
-import me.linus.gpstie.R
-import me.linus.gpstie.decryptText
-import me.linus.gpstie.generateSecretKey
+import me.linus.gpstie.*
 import me.linus.gpstie.gpssender.GTServer
 import org.json.JSONObject
+import java.io.DataInputStream
+import java.io.DataOutputStream
 import java.net.Inet4Address
 import java.net.Socket
 import java.nio.charset.Charset
@@ -24,6 +23,7 @@ class GTClient(val clientListener: GTClientListener) {
         fun onClientStatusChanged(statusResId: Int)
         fun onGpsStatusChanged(status: Int, time: Long)
         fun onLocationReceived(location: GpsLocation)
+        fun onIncompatibility(messageResId: Int)
         fun onClientConnecting()
         fun onClientConnected()
         fun onClientDisconnected()
@@ -50,6 +50,29 @@ class GTClient(val clientListener: GTClientListener) {
             try{
                 // Create socket
                 client = Socket(ip, port)
+
+                // Protocol version exchange and matching (unencrypted):
+                var serverProtocolVersion = -1
+                try {
+                    serverProtocolVersion = DataInputStream(client!!.getInputStream()).readInt()
+                } catch(ignored: Exception) {}
+
+                DataOutputStream(client!!.getOutputStream()).writeInt(BuildConfig.PROTOCOL_VERSION)
+                client!!.getOutputStream().flush()
+
+                if(BuildConfig.PROTOCOL_VERSION != serverProtocolVersion) {
+                    if(BuildConfig.PROTOCOL_VERSION > serverProtocolVersion)
+                        clientListener.onIncompatibility(
+                                R.string.gt_gr_info_incompatible_server_outdated)
+                    else
+                        clientListener.onIncompatibility(
+                                R.string.gt_gr_info_incompatible_client_outdated)
+
+                    disconnect()
+                    return@Thread
+                }
+                // ------------------------------
+
                 secretKey = generateSecretKey(client!!)
                 // At this point, the connection should have succeeded (if not, and Exception would
                 // be thrown)

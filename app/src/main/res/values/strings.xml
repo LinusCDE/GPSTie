@@ -3,6 +3,7 @@
     <!-- Global -->
     <string name="app_name">GPS Tie</string>
     <string name="no_value">--</string>
+    <string name="basic_ok">Ok</string>
 
     <!-- GPSRoleSelectDialog-Layout -->
     <string name="gt_grs_title_chooserole">GPS-Tie - Choose mode</string>
@@ -29,6 +30,18 @@
     <string name="gt_gr_info_connected_receiving_data">Connected. Receiving data…</string>
     <string name="gt_gr_info_disconnected">Disconnected</string>
 
+
+    <!-- Incompatibility Dialog -->
+    <string name="gt_gr_info_incompatible_title"><b>Incompatible</b></string>
+    <string name="gt_gr_info_incompatible_client_outdated">
+        <b>This app can\t connect to the target, because the target uses a newer version of this App.
+        <br />Please update this App.</b>
+    </string>
+    <string name="gt_gr_info_incompatible_server_outdated">
+        <b>The App of the target is outdated.
+            Can'\t communicate with it.</b>
+    </string>
+
     <string name="gt_gr_title_gps_state">GPS-State:</string>
 
     <!-- GPSReceiver-EnableMocking-Dialog -->
@@ -42,7 +55,6 @@
         the Settings and allow <b>Mock-Locations</b> and/or select this App for it.\n\n
         After that everything should work here.
     </string>
-    <string name="gt_gr_button_mocking_ok">Ok</string>
 
     <!-- GPSSender-Layout -->
     <string name="gt_gs_title_app_name">GPS-Sender</string>

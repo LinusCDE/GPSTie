@@ -3,6 +3,7 @@
     <!-- Global -->
     <string name="app_name">GPS Tie</string>
     <string name="no_value">--</string>
+    <string name="basic_ok">Ok</string>
 
     <!-- GPSRoleSelectDialog-Layout -->
     <string name="gt_grs_title_chooserole">GPS-Tie - Modus auswählen</string>
@@ -30,6 +31,18 @@
 
     <string name="gt_gr_title_gps_state">GPS-Status:</string>
 
+
+    <!-- Incompatibility Dialog -->
+    <string name="gt_gr_info_incompatible_title"><b>Nicht kompatibel</b></string>
+    <string name="gt_gr_info_incompatible_client_outdated">
+        <b>Verbindung ist nicht möglich da diese App nicht aktuell genug ist.
+        <br />Bitte update diese App.</b>
+    </string>
+    <string name="gt_gr_info_incompatible_server_outdated">
+        <b>Das Ziel nutzt eine zu veraltete Version dieser App.
+            Verbindung nicht möglich.</b>
+    </string>
+
     <!-- GPSReceiver-EnableMocking-Dialog -->
     <string name="gt_gr_title_mocking">Erlaube Mock-Locations</string>
     <string name="gt_gr_message_mocking">
@@ -43,7 +56,6 @@
         <b>Pseudo/Falsche-Standorte</b> bzw. wähle diese App dafür aus.\n\n
         Danach sollte hier alles gehen.
     </string>
-    <string name="gt_gr_button_mocking_ok">Ok</string>
 
     <!-- GPSSender-Layout -->
     <string name="gt_gs_title_app_name">GPS-Sender</string>

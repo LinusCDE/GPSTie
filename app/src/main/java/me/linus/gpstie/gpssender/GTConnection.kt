@@ -1,8 +1,12 @@
 package me.linus.gpstie.gpssender
 
 import me.linus.gpstie.AsyncExecutor
+import me.linus.gpstie.BuildConfig
 import me.linus.gpstie.encryptText
 import me.linus.gpstie.receiveSecretAESKey
+import java.io.DataInputStream
+import java.io.DataOutputStream
+import java.io.IOException
 import java.net.Socket
 import java.nio.charset.Charset
 import javax.crypto.SecretKey
@@ -18,8 +22,23 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
     val secretKey: SecretKey
 
     init {
-        client.soTimeout = 30000 // = Timeout of 30 seconds
+        client.soTimeout = 3000 // = Timeout of 3 seconds during handshake
+
+        // Protocol version exchange and matching (unencrypted):
+        DataOutputStream(client.getOutputStream()).writeInt(BuildConfig.PROTOCOL_VERSION)
+        client.getOutputStream().flush()
+
+        var clientProtocolVersion = -1
+        try {
+            clientProtocolVersion = DataInputStream(client.getInputStream()).readInt()
+        } catch (ignored: Exception) {}
+
+        if (clientProtocolVersion != BuildConfig.PROTOCOL_VERSION)
+            throw IOException("Client has incompatible protocol version ($clientProtocolVersion)!")
+        // ------------------------------
+
         secretKey = receiveSecretAESKey(client)
+        client.soTimeout = 30000 // = Timeout of 30 seconds
 
         clientInputThread = Thread {
             try {

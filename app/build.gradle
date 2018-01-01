@@ -15,6 +15,7 @@ android {
         versionCode 4
         versionName "1.1.6"
         buildConfigField "int", "PRIVACY_POLICY_VERSION", "1"
+        buildConfigField "int", "PROTOCOL_VERSION", "2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
