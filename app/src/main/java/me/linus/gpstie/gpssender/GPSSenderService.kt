@@ -3,10 +3,7 @@ package me.linus.gpstie.gpssender
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.ConnectivityManager
@@ -16,6 +13,7 @@ import android.os.IBinder
 import me.linus.gpstie.LocationReceiver
 import me.linus.gpstie.R
 import me.linus.gpstie.getLocalIp
+import java.util.*
 
 class GPSSenderService: Service() {
 
@@ -154,6 +152,10 @@ class GPSSenderService: Service() {
 
         fun registerServerListener(serverListener: GTServer.GTServerListener) {
             service.assignableListener = serverListener
+        }
+
+        fun setPassphrase(passphrase: String) {
+            service.server.passphrase = passphrase
         }
 
         fun startServer() = service.server.start()

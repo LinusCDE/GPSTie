@@ -31,6 +31,13 @@
 
     <string name="gt_gr_title_gps_state">GPS-Status:</string>
 
+    <!-- Error-Toasts -->
+    <string name="gt_gr_error_incorrect_passphrase">
+        Das Ziel hat die Verbindung abgelehnt.
+        <br />Die Adresse stimmt nicht!</string>
+    <string name="gt_gr_error_invalid_address">
+        Überprüfe die Adresse.
+        <br />Sie ist falsch formatiert.</string>
 
     <!-- Incompatibility Dialog -->
     <string name="gt_gr_info_incompatible_title"><b>Nicht kompatibel</b></string>
@@ -66,6 +73,9 @@
     <string name="gt_gs_label_server_status">Status:</string>
 
     <string name="gt_gs_title_gps_state">GPS-Status:</string>
+
+    <!-- GPSSender-Menu -->
+    <string name="gt_gs_menu_label_new_address">New address</string>
 
     <!-- GPSSender-Layout-Dynamic -->
     <string name="gt_gs_label_enable_wifi_ap">Verbinde mit W-Lan oder schalte Hotspot an!</string>
@@ -115,7 +125,7 @@
     <string name="gt_gpsinfo_details_label_unknown">Unbekannter Status (%d)</string>
 
     <!-- Menu -->
-    <string name="gt_menu_default_label_change_mode">Modus ändern</string>
+    <string name="gt_menu_label_change_mode">Modus ändern</string>
 
 
 </resources>

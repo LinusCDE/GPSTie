@@ -30,6 +30,13 @@
     <string name="gt_gr_info_connected_receiving_data">Connected. Receiving data…</string>
     <string name="gt_gr_info_disconnected">Disconnected</string>
 
+    <!-- Error-Toasts -->
+    <string name="gt_gr_error_incorrect_passphrase">
+        The target rejected the connection.
+        <br />The address isn\'t correct.</string>
+    <string name="gt_gr_error_invalid_address">
+        Recheck the address.
+        <br />It isn\'t formatted correctly.</string>
 
     <!-- Incompatibility Dialog -->
     <string name="gt_gr_info_incompatible_title"><b>Incompatible</b></string>
@@ -65,6 +72,9 @@
     <string name="gt_gs_label_server_status">Status:</string>
 
     <string name="gt_gs_title_gps_state">GPS-Status:</string>
+
+    <!-- GPSSender-Menu -->
+    <string name="gt_gs_menu_label_new_address">New address</string>
 
     <!-- GPSSender-Layout-Dynamic -->
     <string name="gt_gs_label_enable_wifi_ap">Connect to WiFi or enable Hotspot!</string>
@@ -114,6 +124,6 @@
     <string name="gt_gpsinfo_details_label_unknown">Unknown status (%d)</string>
 
     <!-- Menu -->
-    <string name="gt_menu_default_label_change_mode">Change mode</string>
+    <string name="gt_menu_label_change_mode">Change mode</string>
 
 </resources>

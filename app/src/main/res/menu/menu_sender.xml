@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_to_roleselect"
+        android:icon="@drawable/ic_action_roleselect"
+        android:title="@string/gt_menu_label_change_mode"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_gs_new_address"
+        android:title="@string/gt_gs_menu_label_new_address"
+        app:showAsAction="never" />
+</menu>

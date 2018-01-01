@@ -27,6 +27,7 @@ class GTServer(val serverListener: GTServerListener) {
     var serverThread: Thread? = null // Server-Thread (obvious or not? ;) )
     var serverSocket: ServerSocket? = null // Server-Socket (also obvious)
     val connectedClients = ArrayList<GTConnection>() // All active connections
+    var passphrase: String = "<CHANGE ME>"
 
     /**
      * Starts the server

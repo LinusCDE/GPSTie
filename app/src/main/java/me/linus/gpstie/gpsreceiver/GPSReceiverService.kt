@@ -46,6 +46,9 @@ class GPSReceiverService : Service() {
             mockProvider?.updateLocation(location)
         }
 
+        override fun onIncorrectPassphrase() {
+            assignableClientListener?.onIncorrectPassphrase()
+        }
 
         override fun onClientConnected() {
             assignableClientListener?.onClientConnected()

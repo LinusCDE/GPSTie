@@ -11,7 +11,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
@@ -19,6 +22,7 @@ import me.linus.gpstie.MyActivityBase
 import me.linus.gpstie.R
 import me.linus.gpstie.GPSInfoDetailsFragment
 import me.linus.gpstie.getLocalIp
+import java.util.*
 
 class ActivityGPSSender: MyActivityBase() {
 
@@ -37,6 +41,8 @@ class ActivityGPSSender: MyActivityBase() {
     // GPS:
     lateinit var gpsLocationReceiver: GPSInfoDetailsFragment
     // ------------------------
+    lateinit var prefs: SharedPreferences
+
 
     var binder: GPSSenderService.GPSSenderServiceBinder? = null
     var serviceConnection = object: ServiceConnection {
@@ -51,6 +57,7 @@ class ActivityGPSSender: MyActivityBase() {
             binder!!.registerServerListener(serverListener)
             binder!!.registerLocationReceiver(gpsLocationReceiver)
             binder!!.registerLocationListener(locationListener)
+            binder!!.setPassphrase(getPassphrase())
             runOnUiThread { uiServerStartStop.isChecked = binder!!.isServerRunning() }
         }
 
@@ -94,6 +101,7 @@ class ActivityGPSSender: MyActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gt_gpssender_layout)
+        prefs = getPreferences(Context.MODE_PRIVATE)
 
         setTitle(R.string.gt_gs_title_app_name)
 
@@ -134,8 +142,11 @@ class ActivityGPSSender: MyActivityBase() {
     }
 
     fun displayAddress(address: String?) {
-        uiServerAddress.text = address ?:
-                resources.getString(R.string.gt_gs_label_enable_wifi_ap)
+        uiServerAddress.text =
+                if(address != null)
+                    "$address/${getPassphrase()}"
+                else
+                    resources.getString(R.string.gt_gs_label_enable_wifi_ap)
     }
 
     /**
@@ -267,6 +278,54 @@ class ActivityGPSSender: MyActivityBase() {
             unbindService(serviceConnection)
 
         super.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_sender, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean =
+            when(item?.itemId ?: -1) {
+                R.id.menu_gs_new_address -> {
+                    resetPassphrase()
+                    binder?.setPassphrase(getPassphrase())
+                    displayAddress(getLocalIp())
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
+
+    /**
+     * Generates and returns a new passphrase
+     */
+    fun generatePassphrase(length: Int = 6): String {
+        val pattern = "abcdefghjkmnpqrstuvwxyz1234567890"
+        val ran = Random()
+
+        var passphrase = ""
+        for(i in 0 until length)
+            passphrase += pattern[ran.nextInt(pattern.length)]
+        return passphrase
+    }
+
+    /**
+     * Finds saved passphrase or generates a new one
+     */
+    fun getPassphrase(): String {
+        var passphrase = prefs.getString("passphrase", null)
+        if (passphrase == null) {
+            passphrase = generatePassphrase()
+            prefs.edit().putString("passphrase", passphrase).apply()
+        }
+        return passphrase
+    }
+
+    /**
+     * Resets current passphrase. Next time getPassphrase() is called, it'll generate a new one.
+     */
+    fun resetPassphrase() {
+        prefs.edit().remove("passphrase").apply()
     }
 
 }

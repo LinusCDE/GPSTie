@@ -24,6 +24,7 @@ class GTClient(val clientListener: GTClientListener) {
         fun onGpsStatusChanged(status: Int, time: Long)
         fun onLocationReceived(location: GpsLocation)
         fun onIncompatibility(messageResId: Int)
+        fun onIncorrectPassphrase()
         fun onClientConnecting()
         fun onClientConnected()
         fun onClientDisconnected()
@@ -37,7 +38,7 @@ class GTClient(val clientListener: GTClientListener) {
     /**
      * Establishes connection to given IP
      */
-    fun connect(ip: String, port: Int = GTServer.SERVER_PORT) {
+    fun connect(ip: String, port: Int = GTServer.SERVER_PORT, passphrase: String) {
         if(isConnected()) disconnect() // Disconnect first, if already connected
 
         // Output information to listener:
@@ -76,6 +77,20 @@ class GTClient(val clientListener: GTClientListener) {
                 secretKey = generateSecretKey(client!!)
                 // At this point, the connection should have succeeded (if not, and Exception would
                 // be thrown)
+
+                // Send Passphrase:
+                val message = encryptText(passphrase, secretKey)
+                DataOutputStream(client!!.getOutputStream()).writeUTF(message)
+                // Check success of passphrase
+                val authSuccessEnc = DataInputStream(client!!.getInputStream()).readUTF()
+                val authSuccess = decryptText(authSuccessEnc, secretKey).toBoolean()
+
+                if (!authSuccess) {
+                    clientListener.onIncorrectPassphrase()
+                    disconnect()
+                    return@Thread
+                }
+                // ------------------------------
 
                 // Output information to listener:
                 clientListener.onClientStatusChanged(R.string.gt_gr_info_connected)

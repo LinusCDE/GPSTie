@@ -1,9 +1,6 @@
 package me.linus.gpstie.gpssender
 
-import me.linus.gpstie.AsyncExecutor
-import me.linus.gpstie.BuildConfig
-import me.linus.gpstie.encryptText
-import me.linus.gpstie.receiveSecretAESKey
+import me.linus.gpstie.*
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
@@ -38,10 +35,19 @@ class GTConnection(val gtServer: GTServer, val client: Socket) {
         // ------------------------------
 
         secretKey = receiveSecretAESKey(client)
-        client.soTimeout = 30000 // = Timeout of 30 seconds
 
+        client.soTimeout = 30000 // = Timeout of 30 seconds
         clientInputThread = Thread {
             try {
+                // Check passphrase:
+                val cPassphrase = decryptText(DataInputStream(client.getInputStream()).readUTF(), secretKey)
+                val authSuccess = cPassphrase == gtServer.passphrase
+                val successEncrypted = encryptText(authSuccess.toString(), secretKey)
+                DataOutputStream(client.getOutputStream()).writeUTF(successEncrypted)
+                if (!authSuccess)
+                    throw IllegalArgumentException("Client: Incorrect passphrase ($cPassphrase)!")
+                // ------------------------------
+
                 val inStream = client.getInputStream()
 
                 val buffer = ByteArray(28)

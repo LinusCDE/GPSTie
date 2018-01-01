@@ -5,14 +5,17 @@ import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.Fragment
+import android.view.Menu
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.ToggleButton
 import me.linus.gpstie.GpsLocation
 import me.linus.gpstie.LocationReceiver
 import me.linus.gpstie.MyActivityBase
 import me.linus.gpstie.R
 import me.linus.gpstie.GPSInfoDetailsFragment
+import java.util.regex.Pattern
 
 class ActivityGPSReceiver: MyActivityBase() {
 
@@ -61,6 +64,13 @@ class ActivityGPSReceiver: MyActivityBase() {
                     gpsLocationReceiver?.resetStatus()
                 }
 
+        override fun onIncorrectPassphrase() {
+            runOnUiThread {
+                Toast.makeText(this@ActivityGPSReceiver, R.string.gt_gr_error_incorrect_passphrase,
+                        Toast.LENGTH_LONG).show()
+            }
+        }
+
         override fun onClientStatusChanged(statusResId: Int) =
                 runOnUiThread { uiStatus.setText(statusResId) }
 
@@ -106,9 +116,8 @@ class ActivityGPSReceiver: MyActivityBase() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.gt_gpsreceiver_layout) // Load layout
-
-        prefs = getPreferences(Context.MODE_PRIVATE) // Load preferences
+        setContentView(R.layout.gt_gpsreceiver_layout)
+        prefs = getPreferences(Context.MODE_PRIVATE)
 
         setTitle(R.string.gt_gr_title_app_name) // Set title of App
 
@@ -122,7 +131,19 @@ class ActivityGPSReceiver: MyActivityBase() {
         uiConnectDisconnect.setOnClickListener {
 
             when(uiConnectDisconnect.isChecked) {
-                true -> serviceBinder?.service?.client?.connect(uiAddress.text.toString())
+                true -> {
+                    val data = getConnectData()
+                    if (data == null) {
+                        runOnUiThread {
+                            uiConnectDisconnect.isChecked = false
+                            Toast.makeText(this@ActivityGPSReceiver,
+                                    R.string.gt_gr_error_invalid_address, Toast.LENGTH_LONG).show()
+                        }
+                        return@setOnClickListener
+                    }
+
+                    serviceBinder?.service?.client?.connect(data.first, passphrase = data.second)
+                }
                 false -> serviceBinder?.service?.client?.disconnect()
             }
 
@@ -136,6 +157,20 @@ class ActivityGPSReceiver: MyActivityBase() {
         val service = Intent(this, GPSReceiverService::class.java)
         startService(service)
         bindService(service, connection, Context.BIND_IMPORTANT)
+    }
+
+    fun getConnectData(): Pair<String, String>? {
+        val addressInput = uiAddress.text.toString()
+
+        if("/" !in addressInput)
+            return null
+
+        val split = addressInput.split("/")
+
+        if (split.size != 2)
+            return null
+
+        return Pair(split[0], split[1])
     }
 
     /**
@@ -170,6 +205,11 @@ class ActivityGPSReceiver: MyActivityBase() {
     override fun onDestroy() {
         unbindService(connection)
         super.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_receiver, menu)
+        return true
     }
 
 }

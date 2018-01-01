@@ -11,11 +11,6 @@ import android.view.MenuItem
  */
 open class MyActivityBase : AppCompatActivity() {
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_default, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
         when(item?.itemId) {
