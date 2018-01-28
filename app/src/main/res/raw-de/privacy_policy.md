@@ -14,6 +14,10 @@ Wenn die App im "GPS teilen"-Modus ist, wird diese auf deinen Netzwerk-Status zu
 Dieser wird verwendet um deine eigene Adresse anzuzeigen.
 
 
+### Kamera-Zugriff
+Deine Kamera wird verwendet, wenn du einen QR Code im "GPS Empfangen"-Modus scannen möchtet.
+Dieser Zugriff wird nur für die QR Code erkennung verwendet und nichts anderes.
+
 ## Gesammelte Daten
 Diese App sammelt **keine** Daten vom Nutzer.
 

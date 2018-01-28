@@ -11,14 +11,15 @@ So be aware who can access your network.
 
 ## Tinkering
 
-This app sends and receives the location as a stream of json objects. Since this app is under the MIT-License, you can easyly receive the location or send custom ones using a simple client/server script/program.
+This app sends and receives the location as a stream of json objects. Since this app is under the MIT-License, you can easily receive the location or send custom ones using a simple client/server script/program.
 
 More about this topic and a python example in [this gist](https://gist.github.com/LinusCDE/05b08d4b6246e89ebd4ffe1931b2b888).
 
 
 ## Libaries:
-This uses the [Markwon-Library](https://github.com/noties/Markwon) to parse the privacy policy of this app (needed for Google Play Store).
-
+Used libraries:
+- [Markwon-Library](https://github.com/noties/Markwon): Parsing the privacy policy of this app (needed for Google Play Store)
+- [QRGen](https://github.com/kenglxn/QRGen): Generating QR Code to share address more easily
 
 ## FAQ:
 

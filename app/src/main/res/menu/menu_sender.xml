@@ -9,6 +9,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_gr_share_qr_code"
+        android:title="@string/gt_menu_label_gs_share_qr_code"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_gs_new_address"
         android:title="@string/gt_gs_menu_label_new_address"
         app:showAsAction="never" />

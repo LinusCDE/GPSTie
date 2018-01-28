@@ -6,18 +6,19 @@ import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.Fragment
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
-import me.linus.gpstie.GpsLocation
-import me.linus.gpstie.LocationReceiver
-import me.linus.gpstie.MyActivityBase
-import me.linus.gpstie.R
-import me.linus.gpstie.GPSInfoDetailsFragment
-import java.util.regex.Pattern
+import me.linus.gpstie.*
+import me.linus.gpstie.qrreader.ActivityQrReader
 
 class ActivityGPSReceiver: MyActivityBase() {
+
+    companion object {
+        val QR_READER_REQUEST_ID = 333
+    }
 
     // UI-Elements:
     lateinit var uiAddress: EditText
@@ -157,6 +158,12 @@ class ActivityGPSReceiver: MyActivityBase() {
         val service = Intent(this, GPSReceiverService::class.java)
         startService(service)
         bindService(service, connection, Context.BIND_IMPORTANT)
+
+        // Check for custom address given using scheme "gpstie://<ADDRESS>":
+        if(intent != null && Intent.ACTION_VIEW.equals(intent.action)) {
+            val address = intent.data.toString().replaceFirst("gpstie://", "")
+            uiAddress.setText(address)
+        }
     }
 
     fun getConnectData(): Pair<String, String>? {
@@ -196,6 +203,34 @@ class ActivityGPSReceiver: MyActivityBase() {
                     returnToMainActivity() })
         dialogBuilder.setCancelable(false)
         dialogBuilder.show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean =
+            when (item?.itemId ?: -1) {
+                R.id.menu_gr_scan_qr_code -> {
+                    startActivityForResult(Intent(this, ActivityQrReader::class.java),
+                            QR_READER_REQUEST_ID)
+                    true
+                }
+                else -> super.onOptionsItemSelected(item)
+            }
+
+    /**
+     * Receive result returned from ActivityQrReader
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(requestCode != QR_READER_REQUEST_ID) return
+
+        when(resultCode) {
+            ActivityQrReader.RESULT_READING_CANCELLED -> {}
+            ActivityQrReader.RESULT_READING_FAILED_PERMISSION_DENIED -> {
+                Toast.makeText(this, R.string.gt_gs_toast_camera_permission_denied,
+                        Toast.LENGTH_LONG).show()
+            }
+            ActivityQrReader.RESULT_READING_SUCCEEDED -> {
+                uiAddress.setText(data?.getStringExtra("address"))
+            }
+        }
     }
 
     /**

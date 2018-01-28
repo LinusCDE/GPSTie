@@ -7,4 +7,10 @@
         android:icon="@drawable/ic_action_roleselect"
         android:title="@string/gt_menu_label_change_mode"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_gr_scan_qr_code"
+        android:title="@string/gt_menu_label_gr_scan_qr_code"
+        app:showAsAction="never" />
+
 </menu>

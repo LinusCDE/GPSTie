@@ -21,8 +21,21 @@
 
         <activity android:name="me.linus.gpstie.gpssender.ActivityGPSSender"
             android:configChanges="screenSize|orientation" />
+
         <activity android:name="me.linus.gpstie.gpsreceiver.ActivityGPSReceiver"
-            android:configChanges="screenSize|orientation"/>
+            android:configChanges="screenSize|orientation" >
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="gpstie"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name="me.linus.gpstie.qrreader.ActivityQrReader"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize"/>
 
         <service android:name="me.linus.gpstie.gpsreceiver.GPSReceiverService"
             android:label="GpsTie - Receive-Service" />
@@ -44,5 +57,9 @@
     <!-- Fake Location; only needed by the GPSReceiver -->
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"
         tools:ignore="MockLocation" />
+
+    <!-- For reading QR-Codes -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
 
 </manifest>

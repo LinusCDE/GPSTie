@@ -4,6 +4,7 @@
     <string name="app_name">GPS Tie</string>
     <string name="no_value">--</string>
     <string name="basic_ok">Ok</string>
+    <string name="basic_close">Schließen</string>
 
     <!-- GPSRoleSelectDialog-Layout -->
     <string name="gt_grs_title_chooserole">GPS-Tie - Modus auswählen</string>
@@ -64,6 +65,9 @@
         Danach sollte hier alles gehen.
     </string>
 
+    <!-- GPSReceiver-Menu -->
+    <string name="gt_menu_label_gr_scan_qr_code">QR Code scannen</string>
+
     <!-- GPSSender-Layout -->
     <string name="gt_gs_title_app_name">GPS-Sender</string>
     <string name="gt_gs_title_server">Server:</string>
@@ -76,6 +80,11 @@
 
     <!-- GPSSender-Menu -->
     <string name="gt_gs_menu_label_new_address">New address</string>
+    <string name="gt_menu_label_gs_share_qr_code">Via QR Code teilen</string>
+
+    <!-- GPSReceiver Camera-Permission-Denied -->
+    <string name="gt_gs_toast_camera_permission_denied">
+        Um QR Codes zu lesen, wird der Zugriff auf die Kamera benötigt. 📷</string>
 
     <!-- GPSSender-Layout-Dynamic -->
     <string name="gt_gs_label_enable_wifi_ap">Verbinde mit W-Lan oder schalte Hotspot an!</string>
@@ -105,6 +114,9 @@
     <string name="gt_gs_info_stopping">Stoppe GPS teilen…</string>
     <string name="gt_gs_info_stopped">Teilen gestoppt</string>
 
+    <!-- GPSSender QR-Code-Share-Dialog -->
+    <string name="gt_gs_title_qr_code_share">Scanne diesen QR-Code</string>
+
     <!-- GPSInfo-Details-Layout -->
     <string name="gt_gpsinfo_details_label_latitude">Breitengrad:</string>
     <string name="gt_gpsinfo_details_label_longitude">Längengrad:</string>
@@ -124,8 +136,7 @@
     <string name="gt_gpsinfo_details_label_gps_out_of_service">Außer Betrieb</string>
     <string name="gt_gpsinfo_details_label_unknown">Unbekannter Status (%d)</string>
 
-    <!-- Menu -->
+    <!-- Menu (both GPSSender and GPSReceiver) -->
     <string name="gt_menu_label_change_mode">Modus ändern</string>
-
 
 </resources>

@@ -4,6 +4,8 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.graphics.Point
 import android.location.Location
 import android.location.LocationListener
 import android.net.ConnectivityManager
@@ -11,17 +13,19 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
+import android.util.AttributeSet
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
-import android.widget.Toast
-import android.widget.ToggleButton
+import android.widget.*
 import me.linus.gpstie.MyActivityBase
 import me.linus.gpstie.R
 import me.linus.gpstie.GPSInfoDetailsFragment
 import me.linus.gpstie.getLocalIp
+import net.glxn.qrgen.android.QRCode
+import net.glxn.qrgen.core.image.ImageType
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.util.*
 
 class ActivityGPSSender: MyActivityBase() {
@@ -293,6 +297,10 @@ class ActivityGPSSender: MyActivityBase() {
                     displayAddress(getLocalIp())
                     true
                 }
+                R.id.menu_gr_share_qr_code -> {
+                    shareUsingQrCodeDialog()
+                    true
+                }
                 else -> super.onOptionsItemSelected(item)
             }
 
@@ -326,6 +334,28 @@ class ActivityGPSSender: MyActivityBase() {
      */
     fun resetPassphrase() {
         prefs.edit().remove("passphrase").apply()
+    }
+
+    fun shareUsingQrCodeDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.gt_gs_title_qr_code_share)
+        builder.setCancelable(true)
+        builder.setNeutralButton(R.string.basic_close, null)
+
+        val imageView = ImageView(this)
+        imageView.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        builder.setView(imageView)
+
+        builder.show()
+
+        val point = Point()
+        windowManager.defaultDisplay.getSize(point)
+        val size = (minOf(point.x, point.y) * 0.5).toInt()
+        val qrContent = "gpstie://${uiServerAddress.text}"
+        val bitmap = QRCode.from(qrContent)
+                .withSize(size, size)
+                .bitmap()
+        imageView.setImageBitmap(bitmap)
     }
 
 }

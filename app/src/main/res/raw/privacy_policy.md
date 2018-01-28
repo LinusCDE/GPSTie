@@ -13,6 +13,10 @@ The gps location will be sent to anyone who connects to your device using your a
 The gps location will be accessed when the app is in "gps sharing" mode.
 This is used to show your own address.
 
+### Network access
+Your camera will be accessed when you want to scan a qr code in the "gps receiving" mode.
+This is only used for QR code recognition and nothing else.
+
 
 ## Collected data
 This app **does not** collect data from the user.
