@@ -34,9 +34,8 @@ Sometimes the smartphone doesn't recognize the mocked location correct. First tr
 
 
 ## Screenshots
-![App Main](https://github.com/LinusCDE/GPSTie/blob/master/screenshots/App_Main.png)
+<img src="https://github.com/LinusCDE/GPSTie/blob/master/screenshots/App_Main.png" height=400>
 
-![App Receive](https://github.com/LinusCDE/GPSTie/blob/master/screenshots/App_Receive.png)
+<img src="https://github.com/LinusCDE/GPSTie/blob/master/screenshots/App_Receive.png" height=400>
 
-
-![App Send](https://github.com/LinusCDE/GPSTie/blob/master/screenshots/App_Send.png)
+<img src="https://github.com/LinusCDE/GPSTie/blob/master/screenshots/App_Send.png" height=400>
