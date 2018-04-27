@@ -3,12 +3,6 @@
 This app can share a gps location to multiple smartphones in the same (wifi-)network who will be able to mock the received location a theirs using the location mocking feature (in the android developer settings).
 
 
-## Disclaimer
-
-To receive the location of this app you just have to connect to the app. The communiation doesn't requiere any authentification nor is it encrypted yet!
-So be aware who can access your network.
-
-
 ## Tinkering
 
 This app sends and receives the location as a stream of json objects. Since this app is under the MIT-License, you can easily receive the location or send custom ones using a simple client/server script/program.
