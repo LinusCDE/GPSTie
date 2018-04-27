@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5219"
+   inkscape:version="0.92.1 r"
+   sodipodi:docname="Icon_Receiver_v2.svg"
+   inkscape:export-filename="/home/linus/IdeaProjects/AndroidProjects/GPSTie/inkscape_drawings/Icon_gpsreceiver_v2_png.png"
+   inkscape:export-xdpi="507"
+   inkscape:export-ydpi="507">
+  <defs
+     id="defs5213" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="302.72321"
+     inkscape:cy="595.46692"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:object-paths="true"
+     inkscape:window-width="1861"
+     inkscape:window-height="1051"
+     inkscape:window-x="59"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5216">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g6016"
+       style="fill:#9e9e9e;fill-opacity:1">
+      <path
+         style="opacity:1;fill:#9e9e9e;fill-opacity:1;stroke:none;stroke-width:6.95834303;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
+         d="M 496.54492 136.52539 L 506.71875 251.70312 L 282.90234 482.05859 L 170.99414 471.58789 L 232.03516 534.41406 L 298.16211 602.47461 L 297.73242 602.91602 L 43.826172 864.24219 L 28.568359 911.35742 L 28.568359 911.35938 L 74.345703 895.6543 L 328.68164 633.88477 L 394.81055 701.94531 L 394.81055 701.94727 L 455.85156 764.77148 L 445.67773 649.59375 L 669.49414 419.23633 L 781.40234 429.70703 L 720.36133 366.88281 L 720.36133 366.88086 L 638.97266 283.11523 L 557.58594 199.34961 L 496.54492 136.52539 z "
+         transform="scale(0.26458333)"
+         id="path5998" />
+    </g>
+  </g>
+</svg>

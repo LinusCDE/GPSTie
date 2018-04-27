@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="210mm" height="297mm" version="1.1" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg">
+ <g fill="#9e9e9e">
+  <path d="m96.964 77.402v8.1706a26.458 26.458 0 0 0 -22.911 22.918h-8.1778v6.6146h8.17a26.458 26.458 0 0 0 22.918 22.911v8.1778h6.6146v-8.1706a26.458 26.458 0 0 0 22.911 -22.918h8.1778v-6.6146h-8.1706a26.458 26.458 0 0 0 -22.918 -22.911v-8.1778zm3.3073 13.104a21.292 21.292 0 0 1 21.292 21.292 21.292 21.292 0 0 1 -21.292 21.292 21.292 21.292 0 0 1 -21.292 -21.292 21.292 21.292 0 0 1 21.292 -21.292z" style="paint-order:stroke markers fill"/>
+  <g stroke="#9e9e9e" stroke-linecap="square" stroke-linejoin="round">
+   <path transform="scale(.26458)" d="m378.98 210.28l-75 100.52h50.5v-18.258-12.498h49.998v30.756h49.502l-75-100.52zm-75 324l75 100.52 75-100.52h-49.502v30.764h-49.998v-30.764h-50.5z" fill-rule="evenodd" stroke-width="5"/>
+   <circle cx="100.27" cy="111.8" r="12.469" stroke-width="1.5202" style="paint-order:stroke markers fill"/>
+   <path transform="scale(.26458)" d="m267.24 347.54l-100.52 75 100.52 75v-50.002h-30.758v-49.996h30.758v-50.002zm223.48 0v50.002h30.762v49.996h-30.762v50.002l100.52-75-100.52-75z" fill-rule="evenodd" stroke-width="5"/>
+  </g>
+ </g>
+</svg>

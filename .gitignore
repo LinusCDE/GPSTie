@@ -8,6 +8,6 @@
 /captures
 .externalNativeBuild
 /app/release/*
-inkscape_drawings/*
+inkscape_drawings/PlayStore
 /app-keystore.jks
 .idea

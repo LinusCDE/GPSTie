@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="210px" height="297px" version="1.1" viewBox="0 0 210 297" xmlns="http://www.w3.org/2000/svg">
+ <g fill="#9e9e9e">
+  <path d="m95.505 106.34v6.4083c-15.261 1.7704-27.427 13.937-29.198 29.198h-6.4083v7.6904h6.4083c1.7698 15.261 13.936 27.427 29.198 29.198v6.4083h7.6904v-6.4083c15.262-1.7697 27.428-13.936 29.198-29.198h6.4083v-7.6904h-6.4083c-1.7703-15.261-13.936-27.428-29.198-29.198v-6.4083zm3.8459 12.53c14.921 3e-5 26.921 12 26.921 26.921-3e-5 14.921-12 26.921-26.921 26.921-14.921-3e-5 -26.921-12-26.921-26.921 2e-5 -14.921 12-26.921 26.921-26.921z" color="#000000" color-rendering="auto" dominant-baseline="auto" image-rendering="auto" shape-rendering="auto" solid-color="#000000" style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;isolation:auto;mix-blend-mode:normal;paint-order:stroke markers fill;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal"/>
+  <g stroke="#9e9e9e" stroke-linecap="round" stroke-linejoin="round">
+   <path d="m99.351 95.235-27.422-36.64h54.844z" fill-rule="evenodd" stroke-width="1.8138"/>
+   <path d="m71.929 232.98 27.422-36.64 27.422 36.64z" fill-rule="evenodd" stroke-width="1.8138"/>
+   <path d="m99.351 131.76a14.025 14.025 0 0 0 -14.025 14.025 14.025 14.025 0 0 0 14.025 14.025 14.025 14.025 0 0 0 14.025 -14.025 14.025 14.025 0 0 0 -14.025 -14.025z" stroke-width="4.0209" style="paint-order:stroke markers fill"/>
+   <path d="m149.91 145.79 36.64-27.422v54.844z" fill-rule="evenodd" stroke-width="1.8138"/>
+   <path d="m12.156 118.37 36.64 27.422-36.64 27.422z" fill-rule="evenodd" stroke-width="1.8138"/>
+  </g>
+ </g>
+</svg>
