@@ -79,7 +79,7 @@
     <string name="gt_gs_title_gps_state">GPS-Status:</string>
 
     <!-- GPSSender-Menu -->
-    <string name="gt_gs_menu_label_new_address">New address</string>
+    <string name="gt_gs_menu_label_new_address">Neue Adresse</string>
     <string name="gt_menu_label_gs_share_qr_code">Via QR Code teilen</string>
 
     <!-- GPSReceiver Camera-Permission-Denied -->

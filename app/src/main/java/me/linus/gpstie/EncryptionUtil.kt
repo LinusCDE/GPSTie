@@ -8,8 +8,6 @@ import java.security.KeyPairGenerator
 import java.security.PublicKey
 import javax.crypto.*
 
-// TODO: Enhance encryption. This type of encryption is not super secure but decent enough for now.
-
 /**
  * Performs a Handshake to securely receive a SecretKey for use with AES.
  */
@@ -30,7 +28,7 @@ fun receiveSecretAESKey(s: Socket): SecretKey {
     // Unwrap encrypted secretKey:
     val rsaCipher = Cipher.getInstance("RSA")
     rsaCipher.init(Cipher.UNWRAP_MODE, rsaKeyPair.private)
-    val secretAesKey = rsaCipher.unwrap(encoded, "RSA", Cipher.SECRET_KEY)
+    val secretAesKey = rsaCipher.unwrap(encoded, "AES", Cipher.SECRET_KEY)
     return secretAesKey as SecretKey
 }
 
